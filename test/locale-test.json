@@ -1,0 +1,9 @@
+{
+  "currencySymbol": "£",
+  "thousandSeparator": ",",
+  "decimalSymbol": ".",
+  "currencyFormat": "{{currencySymbol}}%d",
+
+  "rebate": "cashback",
+  "invoice": "receipt"
+}

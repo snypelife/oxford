@@ -1,0 +1,38 @@
+{
+  "printfStringTest": "This is a %s",
+  "printfNumberTest": "1 + 1 = %d",
+  "printfMixedTest": "%d %s, %d %s",
+
+  "test": "test",
+  "mustacheTest": "This is a mustache {{ test }}",
+  "mixinTest": "This is a #capitalize(test)",
+  "nestedMustacheTest": "{{ nested.mustacheTest }}",
+
+  "nested": {
+    "test": "this is a nested test",
+    "printfTest": "this is a nested printf %s",
+    "mustacheTest": "this is a nested mustache {{ test }}",
+    "mixinTest": "this is a nested mixin #capitalize(test)"
+  },
+
+  "routed":{
+    "$key": "#pluralize(%d)",
+    "singular": {
+      "$key": "#pluralize(%d)",
+      "singular": "this is a nested singular(%d) statement",
+      "plural": "this is a nested plural(%d) statement",
+      "none": "this is a nested none statement"
+    },
+    "plural": "this is a plural(%d) statement",
+    "none": "this is a none statement"
+  },
+
+  "currencySymbol": "$",
+  "thousandSeparator": ",",
+  "decimalSymbol": ".",
+  "currencyFormat": "{{ currencySymbol }}%d",
+
+  "rebate": "rebate",
+  "invoice": "invoice"
+}
+

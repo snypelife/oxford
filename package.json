@@ -1,0 +1,35 @@
+{
+  "name": "oxford",
+  "version": "1.0.0",
+  "description": "Localization/String library module",
+  "main": "index.js",
+  "scripts": {
+    "cov": "istanbul cover ./node_modules/mocha/bin/_mocha  -- ./test/* --ui bdd -R spec -t 5000; ./node_modules/opn/cli.js ./coverage/lcov-report/index.html",
+    "test": "istanbul cover ./node_modules/mocha/bin/_mocha  -- ./test/* --ui bdd -R spec -t 5000;"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:snypelife/oxford.git"
+  },
+  "keywords": [
+    "l10n"
+  ],
+  "author": "Brett Rogerson <brettmrogerson@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/snypelife/oxford/issues"
+  },
+  "homepage": "https://github.com/snypelife/oxford",
+  "devDependencies": {
+    "chai": "^2.3.0",
+    "istanbul": "^0.3.13",
+    "mocha": "^2.2.4",
+    "opn": "^1.0.2",
+    "sinon": "^1.14.1",
+    "sinon-chai": "^2.7.0"
+  },
+  "dependencies": {
+    "he": "^0.5.0",
+    "lodash": "^3.7.0"
+  }
+}
