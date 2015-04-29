@@ -24,13 +24,13 @@ describe('parser', function () {
 
   describe('traverse()', function () {
     it('should traverse complex properties with custom routing', function () {
-      expect(parser.traverse(dictionary, 'routed', [[2]]))
+      expect(parser.traverse(dictionary, 'routed', [2]))
       .to
       .equal('this is a plural(%d) statement');
     });
 
     it('should traverse nested complex properties with custom routing', function () {
-      expect(parser.traverse(dictionary, 'routed', [[1], [1]]))
+      expect(parser.traverse(dictionary, 'routed', [1]))
       .to
       .equal('this is a nested singular(%d) statement');
     });
