@@ -36,6 +36,14 @@ describe('get()', function () {
   });
 
   it('should return a string even when additional processing is required', function () {
+    expect(get(dictionary, 'printfNumberTest', 2))
+    .to
+    .equal('1 + 1 = 2');
+
+    expect(get(dictionary, 'currency.format', 2))
+    .to
+    .equal('$2.00');
+
     expect(get(dictionary, 'mustacheTest'))
     .to
     .equal('This is a mustache test');
@@ -44,9 +52,13 @@ describe('get()', function () {
     .to
     .equal('this is a nested mustache test');
 
-    expect(get(dictionary, 'routed', [1], [1], 1))
+    expect(get(dictionary, 'routed', 1))
     .to
     .equal('this is a nested singular(1) statement');
+
+    expect(get(dictionary, 'routed', 2))
+    .to
+    .equal('this is a plural(2) statement');
   });
 
   it('should throw an error if string isn\'t defined in dictionary', function () {

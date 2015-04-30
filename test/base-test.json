@@ -27,10 +27,12 @@
     "none": "this is a none statement"
   },
 
-  "currencySymbol": "$",
-  "thousandSeparator": ",",
-  "decimalSymbol": ".",
-  "currencyFormat": "{{ currencySymbol }}%d",
+  "currency": {
+    "symbol": "&dollar;",
+    "thousandSeparator": "&comma;",
+    "decimalSymbol": "&period;",
+    "format": "{{currency.symbol}}#currency(%d,{{currency.thousandSeparator}},{{currency.decimalSymbol}})"
+  },
 
   "rebate": "rebate",
   "invoice": "invoice"
