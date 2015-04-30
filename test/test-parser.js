@@ -106,15 +106,17 @@ describe('parser', function () {
       .equal('this is a nested printf test');
     });
 
-    it('should throw an error when passing wrong number of args', function () {
+    it('should ignore any extra args and NOT throw an error', function () {
+      expect(parser.printf.bind(null, dictionary.test, [1, 'fish']))
+      .to
+      .not
+      .throw(ReferenceError);
+    });
+
+    it('should throw an error when passing not enough args', function () {
       expect(parser.printf.bind(null, dictionary.printfMixedTest, [1, 'fish']))
       .to
       .throw('Mismatched number of parameters passed to: "%d %s, %d %s"');
-
-      expect(parser.printf.bind(null, dictionary.test, [1, 'fish']))
-      .to
-      .throw('Mismatched number of parameters passed to: "test"');
-
     });
 
     it('should throw an error if passed anything other than string or number', function () {
