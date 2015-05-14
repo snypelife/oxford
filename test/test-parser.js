@@ -106,6 +106,12 @@ describe('parser', function () {
       .equal('this is a nested printf test');
     });
 
+    it('should handle index based placeholders', function () {
+      expect(parser.printf('%s2 %d1, %s4 %d3', [1, 'fish', 2, 'fish']))
+      .to
+      .equal('fish 1, fish 2');
+    });
+
     it('should ignore any extra args and NOT throw an error', function () {
       expect(parser.printf.bind(null, dictionary.test, [1, 'fish']))
       .to
@@ -135,6 +141,12 @@ describe('parser', function () {
       expect(parser.printf.bind(null, dictionary.printfNumberTest, ['one']))
       .to
       .throw('Mismatched parameter types passed to: "1 + 1 = %d"');
+    });
+
+    it('should throw an error when string has mix of indexed/non-indexed placeholders', function () {
+      expect(parser.printf.bind(null, '%s %d, %s4 %d3', [1, 'fish', 2, 'fish']))
+      .to
+      .throw('Mix of indexed/non-indexed placeholders were used for: "%s %d, %s4 %d3"');
     });
   });
 
