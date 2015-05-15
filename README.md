@@ -32,6 +32,21 @@ It was heavily inspired by [Mozilla's L20n framework](http://www.l20n.org), whic
 }
 ```
 
+It's also possible to use indexed placeholders for custom ordering, to account for things like grammatical conjugations.
+
+```
+{
+  "message": "Using Oxford is %s1 %s2"
+}
+{
+  "message": "El uso de Oxford es %s2 %s1"
+}
+
+ox.get('message', 'dead', 'simple'); // Using Oxford is dead simple
+ox.get('message', 'muertos', 'simple'); // El uso de Oxford es simple muertos
+
+```
+
 
 ####{{mustache}} references to internal sibling props
 ```
