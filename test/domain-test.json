@@ -1,0 +1,21 @@
+{
+  "test": "test",
+  "domainTest": {
+    "subDomainOne": {
+      "content": "this is test content"
+    },
+    "subDomainTwo": {
+      "content": {
+        "title": "this is a test title for %s",
+        "body": "this is a {{test}} body"
+      },
+      "subSubDomain": {
+        "content": {
+          "title": "subsub #capitalize(%s) %d {{domainTest.subDomainTwo.content.title}}",
+          "body": "subsub this is a {{test}} body"
+        }
+      }
+    }
+  }
+}
+
