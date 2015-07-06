@@ -1,17 +1,17 @@
 {
   "test": "test",
-  "domainTest": {
-    "subDomainOne": {
+  "childTest": {
+    "subChildOne": {
       "content": "this is test content"
     },
-    "subDomainTwo": {
+    "subChildTwo": {
       "content": {
         "title": "this is a test title for %s",
         "body": "this is a {{test}} body"
       },
-      "subSubDomain": {
+      "subSubChild": {
         "content": {
-          "title": "subsub #capitalize(%s) %d {{domainTest.subDomainTwo.content.title}}",
+          "title": "subsub #capitalize(%s) %d {{childTest.subChildTwo.content.title}}",
           "body": "subsub this is a {{test}} body"
         }
       }
