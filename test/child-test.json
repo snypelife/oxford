@@ -16,6 +16,11 @@
         }
       }
     }
+  },
+  "sub": {
+    "sub": {
+      "nested": "nested content"
+    }
   }
 }
 
