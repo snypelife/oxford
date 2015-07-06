@@ -1,7 +1,7 @@
 # Oxford Localization/String Library
-This l10n module is used to localize applications. It is based on the prinicple of overrides/fallbacks, where injected string libraries are deeply merged from right to left.
+This l10n module is used to localize applications. It is based on the principle of overrides/fallbacks, where injected string libraries are deeply merged from right to left.
 
-```
+```js
   var lib1 = { a: 1, b: 2, c: 3 };
   var lib2 = { b: 'foo', x: 7, y: 8, z: 9 };
   var lib3 = { b: 'baz', z: 'bar' };
@@ -13,11 +13,11 @@ This l10n module is used to localize applications. It is based on the prinicple 
 
   // Results in
   {
-    a: 1,
+    a: '1',
     b: 'baz'
-    c: 3,
-    x: 7,
-    y: 8,
+    c: '3',
+    x: '7',
+    y: '8',
     z: 'bar'
   }
 
@@ -26,7 +26,7 @@ This l10n module is used to localize applications. It is based on the prinicple 
 It was heavily inspired by [Mozilla's L20n framework](http://www.l20n.org), which I recommend you checkout and see if it fits as your project's localization solution.
 
 ####%printf based dynamic placeholders that expect an input
-```
+```js
 {
   "congratsMessage": "Congrats %s!"
 }
@@ -34,7 +34,7 @@ It was heavily inspired by [Mozilla's L20n framework](http://www.l20n.org), whic
 
 It's also possible to use indexed placeholders for custom ordering, to account for things like grammatical conjugations.
 
-```
+```js
 {
   "message": "Using Oxford is %s1 %s2"
 }
@@ -49,7 +49,7 @@ ox.get('message', 'muertos', 'simple'); // El uso de Oxford es simple muertos
 
 
 ####{{mustache}} references to internal sibling props
-```
+```js
 {
   "name": "Bob",
   "welcomeMessage": "Howdy {{name}}!" // 'Howdy Bob!'
@@ -58,7 +58,7 @@ ox.get('message', 'muertos', 'simple'); // El uso de Oxford es simple muertos
 
 
 #### #(mixins) used to perform simple mods on values
-```
+```js
 function capitalize(text) {
   text = text.trim();
   return text.slice(0, 1).toUpperCase() + text.slice(1);
@@ -72,7 +72,7 @@ function capitalize(text) {
 
 
 ####String lookup method get()
-```
+```js
 var oxford = require('oxford');
 var ox = oxford([
   {
@@ -103,7 +103,9 @@ ox.get('nested.prop', 'fox'); // => 'fox jumps over'
 ox.get('routedProp', 2); // => 'the lazy dogs'
 ```
 
-#### child (sub-trees) oxford instances
+#### Child (sub-trees) oxford instances
+Sometimes you may only want a portion of the string library for a particular view. Using the child method, it extracts an immutable version of the desired library.
+
 ```js
 var oxford = require('oxford');
 
@@ -126,9 +128,11 @@ oxChild.get('a.b.c') // throws ReferenceError
 
 ```
 
-#### internal dictionary usage
+#### Exposed internal dictionary object
+This may be useful when using the dictionary on both the server and the client.
 
-this may be useful when using the dictionary on both the server and the client
+**In the future this will be deprecated in favour of a deserialization method as it opens risk to state mutation**.
+
 ```js
 var ox = oxford([dictionaryData]);
 
