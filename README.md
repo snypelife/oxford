@@ -102,3 +102,40 @@ ox.get('nested.prop', 'fox'); // => 'fox jumps over'
 // Get a value from a routed prop by dynamic key
 ox.get('routedProp', 2); // => 'the lazy dogs'
 ```
+
+#### child (sub-trees) oxford instances
+```js
+var oxford = require('oxford');
+
+var ox = oxford([{
+  a: {
+    b : {
+      c: 'foo',
+      d: 'bar'
+    }
+  }
+}]);
+
+ox.get('a.b.c'); // 'foo'
+
+var oxChild = ox.child('a.b');
+
+oxChild.get('c') // "foo"
+oxChild.get('d') // "bar"
+oxChild.get('a.b.c') // throws ReferenceError
+
+```
+
+#### internal dictionary usage
+
+this may be useful when using the dictionary on both the server and the client
+```js
+var ox = oxford([dictionaryData]);
+
+// This is the internal compiled dictionary, be careful not to mutate
+var dictionary = ox.dictionary;
+
+//wont lose data when stringified
+var dictionaryString = JSON.stringify(dictionary);
+var oxNew = oxford([JSON.parse(dictionaryString)]); //ox will be the same as oxNew
+```

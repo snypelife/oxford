@@ -1,0 +1,21 @@
+{
+  "test": "test",
+  "childTest": {
+    "subChildOne": {
+      "content": "this is test content"
+    },
+    "subChildTwo": {
+      "content": {
+        "title": "this is a test title for %s",
+        "body": "this is a {{test}} body"
+      },
+      "subSubChild": {
+        "content": {
+          "title": "subsub #capitalize(%s) %d {{childTest.subChildTwo.content.title}}",
+          "body": "subsub this is a {{test}} body"
+        }
+      }
+    }
+  }
+}
+
