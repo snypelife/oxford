@@ -8,18 +8,18 @@ function oxford(dict) {
   var dictionary = builder.build(dict);
 
   function buildChild(childPath) {
-    var dict = dictionary;
+    var child = dictionary;
 
     if (childPath) {
       if (!Array.isArray(childPath)) {
         childPath = childPath.split('.');
       }
-      dict = t(dict).get(childPath) || {};
+      child = t(child).get(childPath) || {};
     }
 
     return {
-      dictionary: dict,
-      get: get.bind(null, dict),
+      dictionary: child,
+      get: get.bind(null, child),
       child: buildChild
     };
   }
