@@ -2,11 +2,29 @@
 
 var builder = require('./lib/builder');
 var get = require('./lib/get');
+var t = require('traverse');
 
-module.exports = function oxford(dict) {
+function oxford(dict) {
   var dictionary = builder.build(dict);
-  return {
-    dictionary: dictionary,
-    get: get.bind(null, dictionary)
-  };
-};
+
+  function buildChild(childPath) {
+    var child = dictionary;
+
+    if (childPath) {
+      if (!Array.isArray(childPath)) {
+        childPath = childPath.split('.');
+      }
+      child = t(child).get(childPath) || {};
+    }
+
+    return {
+      dictionary: child,
+      get: get.bind(null, child),
+      child: buildChild
+    };
+  }
+
+  return buildChild();
+}
+
+module.exports = oxford;
