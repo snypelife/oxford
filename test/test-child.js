@@ -84,6 +84,16 @@ describe('child', function () {
     expect(strings).to.eql(expected);
   });
 
+  it('should handle nested paths with the same name', function () {
+    ox = oxford([base]).child('sub');
+    expect(ox.get('sub.nested')).to.eq('nested content');
+  });
+
+  it('should handle nested paths with the same name chaining', function () {
+    ox = oxford([base]).child('sub').child('sub');
+    expect(ox.get('nested')).to.eq('nested content');
+  });
+
   it('should handle bad child paths', function () {
     ox = oxford([base]).child('childTest.subChildTwo.subSubChild.badbad');
     expect(ox.dictionary).to.eql({});
