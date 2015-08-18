@@ -73,4 +73,10 @@ describe('get()', function () {
     .to
     .equal('');
   });
+
+  it('should retrieve a nested empty string', function () {
+    expect(get(dictionary, 'nested.emptyString'))
+      .to
+      .equal('');
+  });
 });

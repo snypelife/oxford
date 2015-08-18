@@ -1,3 +1,6 @@
 {
-  "emptyString": ""
+  "emptyString": "",
+  "nested": {
+    "emptyString": ""
+  }
 }
