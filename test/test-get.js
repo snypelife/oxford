@@ -10,6 +10,7 @@ chai.use(sinonChai);
 var base      = require('./base-test.json');
 var locale    = require('./locale-test.json');
 var client    = require('./client-test.json');
+var edges     = require('./edge-cases.json');
 
 var builder   = require('../lib/builder');
 var get       = require('../lib/get');
@@ -19,7 +20,7 @@ var dictionary;
 describe('get()', function () {
 
   before(function () {
-    dictionary = builder.build([base, locale, client]);
+    dictionary = builder.build([base, locale, client, edges]);
   });
 
   it('should expect an input', function () {
@@ -65,5 +66,11 @@ describe('get()', function () {
     expect(get.bind(null, dictionary, 'undefinedStringTest'))
     .to
     .throw('`undefinedStringTest` does not exist in string library');
+  });
+
+  it('should retrieve an empty string', function () {
+    expect(get(dictionary, 'emptyString'))
+    .to
+    .equal('');
   });
 });
