@@ -56,6 +56,27 @@ ox.get('message', 'muertos', 'simple'); // El uso de Oxford es simple muertos
 }
 ```
 
+####[references] used to inject prop into scope
+```js
+  {
+    "oneScope": {
+      "messages": "[globalMessages]" // "messages": { "greeting": "Hello World" }
+    },
+    "twoScope": {
+      "messages": "[globalMessages]" // "messages": { "greeting": "Hello World" }
+    },
+    "redScope": {
+      "messages": "[globalMessages]" // "messages": { "greeting": "Hello World" }
+    },
+    "blueScope": {
+      "messages": "[globalMessages]" // "messages": { "greeting": "Hello World" }
+    },
+    "globalMessages": {
+      "greeting": "Hello World"
+    }
+  }
+```
+
 
 #### #(mixins) used to perform simple mods on values
 ```js
