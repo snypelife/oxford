@@ -41,7 +41,7 @@ describe('child', function () {
     var childOx = ox.child('childTest.subChildOne');
 
     expect(childOx.get.bind(null, 'childTest.subChildOne.content'))
-      .to.throw('`childTest` does not exist in this path context');
+      .to.throw('`childTest.subChildOne.content` does not exist in this context');
 
     expect(childOx.get('content')).to.eq('this is test content');
 

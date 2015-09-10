@@ -1,19 +1,17 @@
 'use strict';
 
-var chai      = require('chai');
-var expect    = chai.expect;
-var sinon     = require('sinon');
-var sinonChai = require('sinon-chai');
-chai.use(sinonChai);
+var chai = require('chai');
+var expect = chai.expect;
+chai.use(require('sinon-chai'));
 
 // test files
-var base      = require('./base-test.json');
-var locale    = require('./locale-test.json');
-var client    = require('./client-test.json');
-var edges     = require('./edge-cases.json');
+var base = require('./base-test.json');
+var locale = require('./locale-test.json');
+var client = require('./client-test.json');
+var edges = require('./edge-cases.json');
 
-var builder   = require('../lib/builder');
-var parser    = require('../lib/parser');
+var builder = require('../lib/builder');
+var parser = require('../lib/parser');
 
 var dictionary;
 
@@ -39,7 +37,7 @@ describe('parser', function () {
     it('should throw an error when nested properties are undefined', function () {
       expect(parser.traverse.bind(null, dictionary, 'bad.nested.path'))
       .to
-      .throw('`bad` does not exist in this path context');
+      .throw('`bad.nested.path` does not exist in this context');
     });
 
     it('should traverse paths that result in empty string values', function () {

@@ -15,12 +15,18 @@
           "body": "subsub this is a {{test}} body"
         }
       }
-    }
+    },
+
+    "mapReference": "[exampleMap]"
   },
   "sub": {
     "sub": {
       "nested": "nested content"
     }
+  },
+
+  "exampleMap": {
+    "test": "abc"
   }
 }
 
