@@ -41,7 +41,7 @@ describe('child', function () {
     var childOx = ox.child('childTest.subChildOne');
 
     expect(childOx.get.bind(null, 'childTest.subChildOne.content'))
-      .to.throw('`childTest` does not exist in this path context');
+      .to.throw('`childTest.subChildOne.content` does not exist in this context');
 
     expect(childOx.get('content')).to.eq('this is test content');
 
@@ -82,6 +82,12 @@ describe('child', function () {
     };
 
     expect(strings).to.eql(expected);
+  });
+
+
+  it('should return an object if traversal ends on an object', function () {
+    ox = oxford([base]).child('childTest');
+    expect(ox.get('mapReference.test')).to.equal('abc');
   });
 
   it('should handle nested paths with the same name', function () {
