@@ -84,6 +84,12 @@ describe('child', function () {
     expect(strings).to.eql(expected);
   });
 
+
+  it('should return an object if traversal ends on an object', function () {
+    ox = oxford([base]).child('childTest');
+    expect(ox.get('mapReference.test')).to.equal('abc');
+  });
+
   it('should handle nested paths with the same name', function () {
     ox = oxford([base]).child('sub');
     expect(ox.get('sub.nested')).to.eq('nested content');

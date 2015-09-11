@@ -125,7 +125,7 @@ describe('parser', function () {
     });
 
     it('should throw an error when passing not enough args', function () {
-      expect(parser.printf.bind(null, dictionary.printfMixedTest, [1, 'fish']))
+      expect(parser.printf.bind(null, dictionary.printfMixedTest))
       .to
       .throw('Mismatched number of parameters passed to: "%d %s, %d %s"');
     });
