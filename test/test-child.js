@@ -8,7 +8,6 @@ var oxford = require('../');
 var base = require('./child-test.json');
 
 describe('child', function () {
-
   var ox;
 
   it('should default to full dictionary', function () {
@@ -49,7 +48,6 @@ describe('child', function () {
       .to.throw('`content` does not exist in string library');
 
     expect(ox.get('childTest.subChildOne.content')).to.eq('this is test content');
-
   });
 
   it('should handle references and variables in children', function () {
