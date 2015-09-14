@@ -1,8 +1,7 @@
+# Oxford Localization/String Library
 [![Build Status](https://travis-ci.org/snypelife/oxford.svg?branch=master)](https://travis-ci.org/snypelife/oxford)
-
 [![Coverage Status](https://coveralls.io/repos/snypelife/oxford/badge.svg?branch=master&service=github)](https://coveralls.io/github/snypelife/oxford?branch=master)
 
-# Oxford Localization/String Library
 This l10n module is used to localize applications. It is based on the principle of overrides/fallbacks, where injected string libraries are deeply merged from right to left.
 
 ```js
