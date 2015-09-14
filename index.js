@@ -1,18 +1,14 @@
 'use strict';
 
+var _ = require('lodash');
 var builder = require('./lib/builder');
 var get = require('./lib/get');
-var t = require('traverse');
-
 
 function buildChild(dictionary, childPath) {
   var child = dictionary;
 
   if (childPath) {
-    if (!Array.isArray(childPath)) {
-      childPath = childPath.split('.');
-    }
-    child = t(child).get(childPath) || {};
+    child = _.get(child, childPath, {});
   }
 
   return {
@@ -22,10 +18,8 @@ function buildChild(dictionary, childPath) {
   };
 }
 
-function oxford(dict) {
+module.exports = function oxford(dict) {
   var dictionary = builder.build(dict);
 
   return buildChild(dictionary);
-}
-
-module.exports = oxford;
+};
