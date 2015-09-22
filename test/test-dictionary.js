@@ -69,6 +69,4 @@ describe('dictionary', function () {
     expect(oxford([recreatedDictionary]).dictionary).to.eql(ox.dictionary);
 
   });
-
-
 });

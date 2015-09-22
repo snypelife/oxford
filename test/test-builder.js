@@ -98,7 +98,7 @@ describe('builder', function () {
       expect(builder.merge(testA, testB))
       .to
       .eql(
-        {a: 1, b:2, c:4, d:5, e:6}
+        {a: 1, b: 2, c: 4, d: 5, e: 6}
       );
     });
 
@@ -109,7 +109,7 @@ describe('builder', function () {
       expect(builder.merge(testA, testB))
       .to
       .eql(
-        {a: 1, b:2, c:['x', 'y', 'z', 'a', 'b', 'c'], d:5, e:6}
+        {a: 1, b: 2, c: ['x', 'y', 'z', 'a', 'b', 'c'], d: 5, e: 6}
       );
     });
   });
