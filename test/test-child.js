@@ -5,7 +5,7 @@ var expect = require('chai').expect;
 var oxford = require('../');
 
 // test file
-var base = require('./child-test.json');
+var base = require('./samples/child-test.json');
 
 describe('child', function () {
   var ox;

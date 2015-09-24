@@ -4,7 +4,6 @@ var expect = require('chai').expect;
 
 var oxford = require('../');
 
-
 describe('dictionary', function () {
 
   var ox;

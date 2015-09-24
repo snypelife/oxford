@@ -5,10 +5,10 @@ var expect = chai.expect;
 chai.use(require('sinon-chai'));
 
 // test files
-var base = require('./base-test.json');
-var locale = require('./locale-test.json');
-var client = require('./client-test.json');
-var edges = require('./edge-cases.json');
+var base = require('./samples/base-test.json');
+var locale = require('./samples/locale-test.json');
+var client = require('./samples/client-test.json');
+var edges = require('./samples/edge-cases.json');
 
 var builder = require('../lib/builder');
 var parser = require('../lib/parser');

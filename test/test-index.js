@@ -1,17 +1,14 @@
 'use strict';
 
-var chai      = require('chai');
-var expect    = chai.expect;
-var sinon     = require('sinon');
-var sinonChai = require('sinon-chai');
-chai.use(sinonChai);
+var chai = require('chai');
+var expect = chai.expect;
 
 // test files
-var base      = require('./base-test.json');
-var locale    = require('./locale-test.json');
-var client    = require('./client-test.json');
+var base = require('./samples/base-test.json');
+var locale = require('./samples/locale-test.json');
+var client = require('./samples/client-test.json');
 
-var oxford    = require('../');
+var oxford = require('../');
 
 var ox;
 
