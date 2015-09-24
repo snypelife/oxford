@@ -113,6 +113,11 @@ var ox = oxford([
       "singular": "the lazy dog",
       "plural": "the lazy dogs",
       "none": "nothing"
+    },
+    "defaultVariant": {
+      "$default": "normal",
+      "normal": "normal text",
+      "alternate": "alternate text"
     }
   }
 ]);
@@ -125,6 +130,11 @@ ox.get('nested.prop', 'fox'); // => 'fox jumps over'
 
 // Get a value from a routed prop by dynamic key
 ox.get('routedProp', 2); // => 'the lazy dogs'
+
+// Get a value from a prop with variants
+ox.get('defaultVariant'); // => 'normal text'
+ox.get('defaultVariant.normal'); // => 'normal text'
+ox.get('defaultVariant.alternate'); // => 'alternate text'
 ```
 
 #### Child (sub-trees) oxford instances

@@ -27,14 +27,17 @@
     "none": "this is a none statement"
   },
 
+  "defaultTest": {
+    "$default": "normal",
+    "normal": "this is a default string",
+    "alternate": "this is an alternate string"
+  },
+
   "currency": {
     "symbol": "&dollar;",
     "thousandSeparator": "&comma;",
     "decimalSymbol": "&period;",
     "format": "{{currency.symbol}}#currency(%d,{{currency.thousandSeparator}},{{currency.decimalSymbol}})"
-  },
-
-  "rebate": "rebate",
-  "invoice": "invoice"
+  }
 }
 
