@@ -45,6 +45,15 @@ describe('parser', function () {
       .to
       .equal('');
     });
+
+    it('should traverse paths and return string if $default is defined', function () {
+      expect(parser.traverse(dictionary, 'defaultTest'))
+      .to
+      .equal('this is a default string');
+      expect(parser.traverse(dictionary, 'defaultTest.alternate'))
+      .to
+      .equal('this is an alternate string');
+    });
   });
 
   describe('parse()', function () {
