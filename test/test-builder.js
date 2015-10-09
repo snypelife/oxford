@@ -135,7 +135,7 @@ describe('builder', function () {
         .eql({
           a: 1,
           b: 2,
-          c: ['x', 'y', 'z', 'a', 'b', 'c'],
+          c: ['a', 'b', 'c'],
           d: 5,
           e: 6
         });
