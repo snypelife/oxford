@@ -18,6 +18,7 @@ describe('get()', function () {
 
   before(function () {
     dictionary = builder.build([base, locale, client, edges]);
+    get = get.bind(require('../index.js'));
   });
 
   it('should expect an input', function () {
