@@ -180,42 +180,45 @@ describe('registerPlugin', function () {
     });
   });
 
-  describe('Pre-get', function () {
-    it('should register the plugin method', function () {
-      pluginFactory('preget', 'pregetPlugin', function () { return 'foo'; })();
-      expect(oxford.pluginHooks.preget).to.exist;
-      expect(oxford.pluginHooks.preget).to.be.an('array');
-      expect(oxford.pluginHooks.preget).to.have.length(1);
-      expect('foo').to.satisfy(oxford.pluginHooks.preget[0]);
-    });
+  ['Pre-get', 'Post-get'].forEach(function (hook) {
+    describe(hook, function () {
+      hook = hook.toLowerCase().replace('-', '');
+      it('should register the plugin method', function () {
+        pluginFactory(hook, 'plugin', function () { return 'foo'; })();
+        expect(oxford.pluginHooks[hook]).to.exist;
+        expect(oxford.pluginHooks[hook]).to.be.an('array');
+        expect(oxford.pluginHooks[hook]).to.have.length(1);
+        expect('foo').to.satisfy(oxford.pluginHooks[hook][0]);
+      });
 
-    it('should pass the pre-built dictionary object to the plugin method', function () {
-      var spy = sinon.spy(function (string) { return string.toUpperCase(); });
+      it($f('should pass the %s dictionary object to the plugin method', hook), function () {
+        var spy = sinon.spy(function (string) { return string.toUpperCase(); });
 
-      pluginFactory('preget', 'test', spy)();
+        pluginFactory(hook, 'test', spy)();
 
-      var data = { a: 'a', b: 'b',  c: 'c' };
-      var ox = oxford(data);
-      var string = ox.get('a');
+        var data = { a: 'a', b: 'b',  c: 'c' };
+        var ox = oxford(data);
+        var string = ox.get('a');
 
-      expect(spy).to.have.been.calledWith(data.a);
-      expect(string).to.equal(data.a.toUpperCase());
-    });
+        expect(spy).to.have.been.calledWith(data.a);
+        expect(string).to.equal(data.a.toUpperCase());
+      });
 
-    it('should waterfall the pre-built dictionary object thru to each plugin method', function () {
-      var spy1 = sinon.spy(function (string) { return string.toUpperCase(); });
-      var spy2 = sinon.spy(function (string) { return _.repeat(string, 3); });
+      it($f('should waterfall the %s dictionary object thru to each plugin method', hook), function () {
+        var spy1 = sinon.spy(function (string) { return string.toUpperCase(); });
+        var spy2 = sinon.spy(function (string) { return _.repeat(string, 3); });
 
-      pluginFactory('preget', 'test', spy1)();
-      pluginFactory('preget', 'test2', spy2)();
+        pluginFactory(hook, 'test', spy1)();
+        pluginFactory(hook, 'test2', spy2)();
 
-      var data = { a: 'a', b: 'b',  c: 'c' };
-      var ox = oxford(data);
-      var string = ox.get('a');
+        var data = { a: 'a', b: 'b',  c: 'c' };
+        var ox = oxford(data);
+        var string = ox.get('a');
 
-      expect(spy1).to.have.been.calledWith(data.a);
-      expect(spy2).to.have.been.calledWith(data.a.toUpperCase());
-      expect(string).to.equal(_.repeat(data.a, 3).toUpperCase());
+        expect(spy1).to.have.been.calledWith(data.a);
+        expect(spy2).to.have.been.calledWith(data.a.toUpperCase());
+        expect(string).to.equal(_.repeat(data.a, 3).toUpperCase());
+      });
     });
   });
 
