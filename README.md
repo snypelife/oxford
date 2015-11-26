@@ -181,26 +181,30 @@ var oxNew = oxford([JSON.parse(dictionaryString)]); //ox will be the same as oxN
 # Oxford Plugin System
 Oxford exposes seams that you may register external plugins into the processing/query chain.
 
+You can register a plugin by referencing an installed package. The convention is `oxford-plugin-<name>` and you
+can reference it just by `<name>` and oxford will automatically try registering `oxford-plugin-<name>` first and then
+the plain `<name>` if it fails
+
 #### Example
 ```js
-// oxford-plugin-example/index.js
+//installed package 'oxford-plugin-markdown'
+// oxford-plugin-markdown/index.js
 'use strict';
 
 var parseMarkdown = require('marked');
 
-module.exports = function (mdOptions) {
-  return {
-    hook: 'post-get',
-    name: 'markdownPlugin',
-    method: function (string) {
-      return parseMarkdown(string, mdOptions);
-    }
-  };
+module.exports = {
+  hook: 'post-get',
+  name: 'markdownPlugin',
+  method: function (string) {
+    return parseMarkdown(string);
 };
 
 // example.js
 var oxford = require('oxford');
-oxford.registerPlugin(require('oxford-plugin-markdown')());
+oxford.registerPlugin('markdown');
+//or oxford.registerPlugin('oxford-plugin-markdown');
+//or oxford.registerPlugin(require('oxford-plugin-markdown'));
 
 var ox = oxford({ hello: '#Hello %s!' });
 
@@ -249,24 +253,24 @@ hello: Hello %s!
 
 ```js
 
-// oxford-plugin-yaml/index.js
+//installed package 'oxford-plugin-yaml'
+//oxford-plugin-yaml/index.js
 'use strict';
 
 var yaml = require('js-yaml');
 
-module.exports = function (mdOptions) {
-  return {
-    hook: 'static',
-    name: 'importYAML',
-    method: function (url) {
-      return this(yaml.safeLoad(fs.readFileSync(url, 'utf8')))
-    }
-  };
+module.exports = {
+  hook: 'static',
+  name: 'importYAML',
+  method: function (url) {
+    return this(yaml.safeLoad(fs.readFileSync(url, 'utf8')))
+  }
 };
+
 
 // example.js
 var oxford = require('oxford');
-oxford.registerPlugin(require('oxford-plugin-yaml')());
+oxford.registerPlugin('yaml');
 
 var ox = oxford.importYAML('./lib/text.yml');
 
