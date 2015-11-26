@@ -28,6 +28,7 @@
     "istanbul": "^0.3.13",
     "mocha": "^2.2.4",
     "opener": "^1.4.1",
+    "oxford-plugin-test": "^1.0.0",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
   },

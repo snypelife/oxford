@@ -222,4 +222,34 @@ describe('registerPlugin', function () {
     });
   });
 
+  it('should register plugins from a oxford-plugin module using shorthand', function () {
+    var food = oxford({
+      food: 'donuts'
+    });
+    oxford.registerPlugin('test');
+    expect(food.get('food')).to.equal('Mmm, donuts');
+  });
+
+  it('should register plugins from a oxford-plugin module using full name', function () {
+    var food = oxford({
+      food: 'donuts'
+    });
+    oxford.registerPlugin('oxford-plugin-test');
+    expect(food.get('food')).to.equal('Mmm, donuts');
+  });
+
+  it('should register plugins from a non oxford-plugin style module', function () {
+    var food = oxford({
+      food: 'donuts'
+    });
+    //should not used like this, but for test this should be relative to the lib folder
+    oxford.registerPlugin('../test/oxford-plugin-local-test');
+
+    expect(food.get('food')).to.equal('Mmm, donuts');
+  });
+
+  it('should error if the plugin cannot be registered (via string)', function () {
+    expect(oxford.registerPlugin.bind(null, 'testDoesNotExist')).to.throw(Error);
+  });
+
 });
