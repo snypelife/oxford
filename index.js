@@ -13,13 +13,25 @@ function buildChild(dictionary, childPath) {
 
   return {
     dictionary: child,
-    get: get.bind(null, child),
+    get: get.bind(oxford, child),
     child: buildChild.bind(null, child)
   };
 }
 
-module.exports = function oxford(dict) {
+function oxford(dict) {
+  function runPlugin(func) {
+    dict = func(_.cloneDeep(dict));
+  }
+
+  module.exports.pluginHooks.prebuild.forEach(runPlugin);
+
   var dictionary = builder.build(dict);
+
+  module.exports.pluginHooks.postbuild.forEach(runPlugin);
 
   return buildChild(dictionary);
 };
+
+module.exports = oxford;
+
+module.exports.registerPlugin = require('./lib/register-plugin.js')(oxford);

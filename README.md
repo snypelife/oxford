@@ -177,3 +177,99 @@ var dictionary = ox.dictionary;
 var dictionaryString = JSON.stringify(dictionary);
 var oxNew = oxford([JSON.parse(dictionaryString)]); //ox will be the same as oxNew
 ```
+
+# Oxford Plugin System
+Oxford exposes seams that you may register external plugins into the processing/query chain.
+
+#### Example
+```js
+// oxford-plugin-example/index.js
+'use strict';
+
+var parseMarkdown = require('marked');
+
+module.exports = function (mdOptions) {
+  return {
+    hook: 'post-get',
+    name: 'markdownPlugin',
+    method: function (string) {
+      return parseMarkdown(string, mdOptions);
+    }
+  };
+};
+
+// example.js
+var oxford = require('oxford');
+oxford.registerPlugin(require('oxford-plugin-markdown')());
+
+var ox = oxford({ hello: '#Hello %s!' });
+
+ox.get('hello', 'Brett'); // returns <h1>Hello Brett!</h1>
+
+```
+
+#### Current available hooks include:
+- prebuild
+- postbuild
+- preget
+- postget
+- static
+
+All hooks are normalized upon registering involving lowercasing and removing underscores(_), hyphens(-) and white spaces(" ").
+
+This means that the following hook definitions are synonomous:
+- 'preget'
+- 'post-get'
+- 'pre_build'
+- 'post build'
+- 'Preget'
+- 'Pre-get'
+- etc.
+
+#### Pre-get hook
+This hook is invoked before any processing occurs when calling the `.get()` method.  It is triggered before any additional traversals(i.e. mustaches/references) or decoding (i.e. HTML entity decoding).
+
+#### Post-get hook
+This hook is invoked after any processing occurs when calling the `.get()` method.  It is triggered after any additional traversals(i.e. mustaches/references) or decoding (i.e. HTML entity decoding).
+
+#### Pre-build hook
+This hook is invoked immediately before the string libray is built/comibined, so it can be used for any sort of custom preprocessing of the string library data before being handed off to Oxford.
+
+#### Post-build hook
+This hook is invoked immediately after the string libray is built/combined, so it can be used for any sort of custom post-processing of the string library data before being handed off to Oxford.
+
+#### Static hook
+This hook attaches a public static method onto the Oxford instance. It can be useful for things like parsing a custom data type or importing from a URL.
+
+```yaml
+# lib/text.yml
+---
+hello: Hello %s!
+```
+
+```js
+
+// oxford-plugin-yaml/index.js
+'use strict';
+
+var yaml = require('js-yaml');
+
+module.exports = function (mdOptions) {
+  return {
+    hook: 'static',
+    name: 'importYAML',
+    method: function (url) {
+      return this(yaml.safeLoad(fs.readFileSync(url, 'utf8')))
+    }
+  };
+};
+
+// example.js
+var oxford = require('oxford');
+oxford.registerPlugin(require('oxford-plugin-yaml')());
+
+var ox = oxford.importYAML('./lib/text.yml');
+
+ox.get('hello', 'Brett'); // returns Hello Brett!
+
+```
