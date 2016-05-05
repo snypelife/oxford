@@ -122,7 +122,7 @@ describe('builder', function () {
       var testA = {
         a: 1,
         b: 2,
-        c: ['x', 'y', 'z']
+        c: ['v', 'w', 'x', 'y', 'z']
       };
       var testB = {
         c: ['a', 'b', 'c'],
