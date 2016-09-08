@@ -126,11 +126,10 @@ describe('parser', function () {
       .equal('fish 1, fish 2');
     });
 
-    it('should ignore any extra args and NOT throw an error', function () {
-      expect(parser.printf.bind(null, dictionary.test, [1, 'fish']))
+    it('should ignore any extra args and without throwing an error', function () {
+      expect(parser.printf(dictionary.test, [1, 'fish']))
       .to
-      .not
-      .throw(ReferenceError);
+      .equal('test');
     });
 
     it('should throw an error when passing not enough args', function () {
