@@ -28,7 +28,7 @@ This l10n module is used to localize applications. It is based on the principle 
 
 It was heavily inspired by [Mozilla's L20n framework](http://www.l20n.org), which I recommend you checkout and see if it fits as your project's localization solution.
 
-####%printf based dynamic placeholders that expect an input
+#### %printf based dynamic placeholders that expect an input
 ```js
 {
   "congratsMessage": "Congrats %s!"
@@ -51,7 +51,7 @@ ox.get('message', 'muertos', 'simple'); // El uso de Oxford es simple muertos
 ```
 
 
-####{{mustache}} references to internal sibling props
+#### {{mustache}} references to internal sibling props
 ```js
 {
   "name": "Bob",
@@ -59,7 +59,7 @@ ox.get('message', 'muertos', 'simple'); // El uso de Oxford es simple muertos
 }
 ```
 
-####[[references]] used to inject prop into scope
+#### [[references]] used to inject prop into scope
 ```js
   {
     "oneScope": {
@@ -95,7 +95,7 @@ function capitalize(text) {
 ```
 
 
-####String lookup method get()
+#### String lookup method get()
 ```js
 var oxford = require('oxford');
 var ox = oxford([
