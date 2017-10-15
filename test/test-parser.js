@@ -126,11 +126,15 @@ describe('parser', function () {
       .equal('fish 1, fish 2');
     });
 
-    it('should ignore any extra args and NOT throw an error', function () {
-      expect(parser.printf.bind(null, dictionary.test, [1, 'fish']))
+    it('should ignore any extra args and without throwing an error', function () {
+      expect(parser.printf(dictionary.printfStringTest, ['fish', 'cat']))
       .to
-      .not
-      .throw(ReferenceError);
+      .equal('This is a fish');
+
+
+      expect(parser.printf('this has no placeholders', ['fish', 'cat']))
+      .to
+      .equal('this has no placeholders');
     });
 
     it('should throw an error when passing not enough args', function () {
