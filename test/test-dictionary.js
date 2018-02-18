@@ -1,14 +1,13 @@
-'use strict';
+'use strict'
 
-var expect = require('chai').expect;
+var expect = require('chai').expect
 
-var oxford = require('../');
+var oxford = require('../')
 
 describe('dictionary', function () {
+  var ox
 
-  var ox;
-
-  var testDictionary;
+  var testDictionary
 
   before(function () {
     testDictionary = {
@@ -21,15 +20,14 @@ describe('dictionary', function () {
           }
         }
       }
-    };
-  });
+    }
+  })
 
   beforeEach(function () {
-    ox = oxford([testDictionary]);
-  });
+    ox = oxford([testDictionary])
+  })
 
   it('should expose the internal dictionary', function () {
-
     var expected = {
       test: {
         testRef: 'test',
@@ -40,32 +38,27 @@ describe('dictionary', function () {
           }
         }
       }
-    };
+    }
 
-    expect(ox.dictionary).to.eql(expected);
-
-  });
+    expect(ox.dictionary).to.eql(expected)
+  })
 
   it('should expose the internal dictionary of a child', function () {
-
     var expected = {
       b: {
         c: 'foo',
         d: 'bar test'
       }
-    };
+    }
 
-    expect(ox.child('test.a').dictionary).to.eql(expected);
-
-  });
+    expect(ox.child('test.a').dictionary).to.eql(expected)
+  })
 
   it('should survive stringify', function () {
+    var stringDictionary = JSON.stringify(ox.dictionary)
 
-    var stringDictionary = JSON.stringify(ox.dictionary);
+    var recreatedDictionary = JSON.parse(stringDictionary)
 
-    var recreatedDictionary = JSON.parse(stringDictionary);
-
-    expect(oxford([recreatedDictionary]).dictionary).to.eql(ox.dictionary);
-
-  });
-});
+    expect(oxford([recreatedDictionary]).dictionary).to.eql(ox.dictionary)
+  })
+})

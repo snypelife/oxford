@@ -1,13 +1,8 @@
 {
   "name": "oxford",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Localization/String library module",
   "main": "index.js",
-  "scripts": {
-    "lint": "eslint *.js lib/*.js",
-    "cov": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000; opener ./coverage/lcov-report/index.html",
-    "test": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
-  },
   "repository": {
     "type": "git",
     "url": "git@github.com:snypelife/oxford.git"
@@ -20,15 +15,36 @@
   "bugs": {
     "url": "https://github.com/snypelife/oxford/issues"
   },
+  "scripts": {
+    "cov": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000; opener ./coverage/lcov-report/index.html",
+    "test-only": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000",
+    "test": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "precommit": "npm run test-only"
+  },
+  "lint-staged": {
+    "linters": {
+      "src/**/*.js": [
+        "prettier-standard",
+        "git add"
+      ]
+    }
+  },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
+  },
   "homepage": "https://github.com/snypelife/oxford",
   "devDependencies": {
     "chai": "^2.3.0",
     "coveralls": "^2.11.4",
-    "eslint": "^0.24.0",
+    "husky": "^0.14.3",
     "istanbul": "^0.3.13",
+    "lint-staged": "^6.1.1",
     "mocha": "^2.2.4",
     "opener": "^1.4.1",
     "oxford-plugin-test": "^1.0.0",
+    "prettier-standard": "^8.0.0",
     "sinon": "^1.14.1",
     "sinon-chai": "^2.7.0"
   },
