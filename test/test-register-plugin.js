@@ -14,8 +14,6 @@ var client = require('./samples/client-test.json')
 
 var oxford = require('../index.js')
 
-var ox
-
 var pluginHooks = ['prebuild', 'postbuild', 'preget', 'postget', 'static']
 
 function cleanOxford () {
@@ -43,7 +41,7 @@ function pluginFactory (hookName, pluginName, pluginMethod) {
 
 describe('registerPlugin', function () {
   beforeEach(function () {
-    ox = oxford([base, locale, client])
+    oxford([base, locale, client])
   })
 
   afterEach(cleanOxford)

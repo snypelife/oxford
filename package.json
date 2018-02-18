@@ -17,8 +17,8 @@
   },
   "scripts": {
     "cov": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000; opener ./coverage/lcov-report/index.html",
-    "test-only": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000 && cat ./coverage/lcov.info",
-    "test": "npm run test-only | coveralls && rm -rf ./coverage",
+    "test-only": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000",
+    "test": "istanbul cover _mocha  -- ./test/* --ui bdd -R spec -t 5000 && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "precommit": "npm run test-only"
   },
   "lint-staged": {
@@ -28,6 +28,9 @@
         "git add"
       ]
     }
+  },
+  "standard": {
+    "env": ["mocha"]
   },
   "homepage": "https://github.com/snypelife/oxford",
   "devDependencies": {
