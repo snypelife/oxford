@@ -289,7 +289,7 @@ describe('registerPlugin', () => {
         food: 'donuts'
       })
       // should not used like this, but for test this should be relative to the lib folder
-      oxford.registerPlugin('../test/oxford-plugin-local-test')
+      oxford.registerPlugin('../__tests__/oxford-plugin-local-test')
 
       expect(food.get('food')).toBe('Mmm, donuts')
     }

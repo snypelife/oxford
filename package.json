@@ -17,8 +17,8 @@
   },
   "scripts": {
     "cov": "opener ./coverage/lcov-report/index.html",
-    "test-only": "jest test/*.js",
-    "test": "jest test/*.js && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "test-only": "jest",
+    "test": "jest && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
     "precommit": "npm run test-only"
   },
   "lint-staged": {
@@ -34,6 +34,10 @@
     "collectCoverageFrom": [
       "*.js",
       "lib/*.js"
+    ],
+    "testEnvironment": "node",
+    "testPathIgnorePatterns": [
+      "__tests__/oxford-plugin-local-test/"
     ]
   },
   "standard": {
