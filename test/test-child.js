@@ -1,60 +1,54 @@
 'use strict'
 
-var expect = require('chai').expect
-
 var oxford = require('../')
 
 // test file
 var base = require('./samples/child-test.json')
 
-describe('child', function () {
+describe('child', () => {
   var ox
 
-  it('should default to full dictionary', function () {
+  test('should default to full dictionary', () => {
     ox = oxford([base]).child('')
-    expect(ox.get('test')).to.eq('test')
+    expect(ox.get('test')).toEqual('test')
   })
 
-  it('should accept a single element child path (string)', function () {
+  test('should accept a single element child path (string)', () => {
     ox = oxford([base]).child('childTest')
-    expect(ox.get('subChildOne.content')).to.eql('this is test content')
+    expect(ox.get('subChildOne.content')).toEqual('this is test content')
   })
 
-  it('should accept a single element child path (array)', function () {
+  test('should accept a single element child path (array)', () => {
     ox = oxford([base]).child(['childTest'])
-    expect(ox.get('subChildOne.content')).to.eql('this is test content')
+    expect(ox.get('subChildOne.content')).toEqual('this is test content')
   })
 
-  it('should accept multi-level path as child path (string)', function () {
+  test('should accept multi-level path as child path (string)', () => {
     ox = oxford([base]).child('childTest.subChildOne')
-    expect(ox.get('content')).to.eql('this is test content')
+    expect(ox.get('content')).toEqual('this is test content')
   })
 
-  it('should accept multi-level path as child path (array)', function () {
+  test('should accept multi-level path as child path (array)', () => {
     ox = oxford([base]).child(['childTest', 'subChildOne'])
-    expect(ox.get('content')).to.eql('this is test content')
+    expect(ox.get('content')).toEqual('this is test content')
   })
 
-  it('should be chainable, but not mutating', function () {
+  test('should be chainable, but not mutating', () => {
     ox = oxford([base])
     var childOx = ox.child('childTest.subChildOne')
 
-    expect(childOx.get.bind(null, 'childTest.subChildOne.content')).to.throw(
-      '`childTest.subChildOne.content` does not exist in this context'
-    )
+    expect(childOx.get.bind(null, 'childTest.subChildOne.content')).toThrowError('`childTest.subChildOne.content` does not exist in this context')
 
-    expect(childOx.get('content')).to.eq('this is test content')
+    expect(childOx.get('content')).toEqual('this is test content')
 
-    expect(ox.get.bind(null, 'content')).to.throw(
-      '`content` does not exist in string library'
-    )
+    expect(ox.get.bind(null, 'content')).toThrowError('`content` does not exist in string library')
 
-    expect(ox.get('childTest.subChildOne.content')).to.eq(
+    expect(ox.get('childTest.subChildOne.content')).toEqual(
       'this is test content'
     )
   })
 
-  it('should handle references and variables in children', function () {
+  test('should handle references and variables in children', () => {
     ox = oxford([base]).child('childTest.subChildTwo')
 
     var strings = {
@@ -67,10 +61,10 @@ describe('child', function () {
       body: 'this is a test body'
     }
 
-    expect(strings).to.eql(expected)
+    expect(strings).toEqual(expected)
   })
 
-  it('should handle more complex references/variables', function () {
+  test('should handle more complex references/variables', () => {
     ox = oxford([base]).child('childTest.subChildTwo.subSubChild')
 
     var strings = {
@@ -83,33 +77,36 @@ describe('child', function () {
       body: 'subsub this is a test body'
     }
 
-    expect(strings).to.eql(expected)
+    expect(strings).toEqual(expected)
   })
 
-  it('should return an object if traversal ends on an object', function () {
+  test('should return an object if traversal ends on an object', () => {
     ox = oxford([base]).child('childTest')
-    expect(ox.get('mapReference.test')).to.equal('abc')
+    expect(ox.get('mapReference.test')).toBe('abc')
   })
 
-  it('should handle nested paths with the same name', function () {
+  test('should handle nested paths with the same name', () => {
     ox = oxford([base]).child('sub')
-    expect(ox.get('sub.nested')).to.eq('nested content')
+    expect(ox.get('sub.nested')).toEqual('nested content')
   })
 
-  it('should handle nested paths with the same name chaining', function () {
+  test('should handle nested paths with the same name chaining', () => {
     ox = oxford([base])
       .child('sub')
       .child('sub')
-    expect(ox.get('nested')).to.eq('nested content')
+    expect(ox.get('nested')).toEqual('nested content')
   })
 
-  it('should handle bad child paths', function () {
+  test('should handle bad child paths', () => {
     ox = oxford([base]).child('childTest.subChildTwo.subSubChild.badbad')
-    expect(ox.dictionary).to.eql({})
+    expect(ox.dictionary).toEqual({})
   })
 
-  it('should handle bad child paths - more than one level of bad', function () {
-    ox = oxford([base]).child('moe.moe.moe.moe.moe')
-    expect(ox.dictionary).to.eql({})
-  })
+  test(
+    'should handle bad child paths - more than one level of bad',
+    () => {
+      ox = oxford([base]).child('moe.moe.moe.moe.moe')
+      expect(ox.dictionary).toEqual({})
+    }
+  )
 })

@@ -1,9 +1,5 @@
 'use strict'
 
-var chai = require('chai')
-var expect = chai.expect
-chai.use(require('sinon-chai'))
-
 // test files
 var base = require('./samples/base-test.json')
 var locale = require('./samples/locale-test.json')
@@ -15,185 +11,184 @@ var parser = require('../lib/parser')
 
 var dictionary
 
-describe('parser', function () {
-  before(function () {
+describe('parser', () => {
+  beforeAll(function () {
     dictionary = builder.build([base, locale, client, edges])
   })
 
-  describe('traverse()', function () {
-    it('should traverse complex properties with custom routing', function () {
-      expect(parser.traverse(dictionary, 'routed', [2])).to.equal(
-        'this is a plural(%d) statement'
-      )
+  describe('traverse()', () => {
+    test('should traverse complex properties with custom routing', () => {
+      expect(parser.traverse(dictionary, 'routed', [2])).toBe('this is a plural(%d) statement')
     })
 
-    it('should traverse nested complex properties with custom routing', function () {
-      expect(parser.traverse(dictionary, 'routed', [1])).to.equal(
-        'this is a nested singular(%d) statement'
-      )
+    test(
+      'should traverse nested complex properties with custom routing',
+      () => {
+        expect(parser.traverse(dictionary, 'routed', [1])).toBe('this is a nested singular(%d) statement')
+      }
+    )
+
+    test(
+      'should throw an error when nested properties are undefined',
+      () => {
+        expect(
+          parser.traverse.bind(null, dictionary, 'bad.nested.path')
+        ).toThrowError('`bad.nested.path` does not exist in this context')
+      }
+    )
+
+    test('should traverse paths that result in empty string values', () => {
+      expect(parser.traverse(dictionary, 'nested.emptyString')).toBe('')
     })
 
-    it('should throw an error when nested properties are undefined', function () {
-      expect(
-        parser.traverse.bind(null, dictionary, 'bad.nested.path')
-      ).to.throw('`bad.nested.path` does not exist in this context')
-    })
-
-    it('should traverse paths that result in empty string values', function () {
-      expect(parser.traverse(dictionary, 'nested.emptyString')).to.equal('')
-    })
-
-    it('should traverse paths and return string if $default is defined', function () {
-      expect(parser.traverse(dictionary, 'defaultTest')).to.equal(
-        'this is a default string'
-      )
-      expect(parser.traverse(dictionary, 'defaultTest.alternate')).to.equal(
-        'this is an alternate string'
-      )
-    })
+    test(
+      'should traverse paths and return string if $default is defined',
+      () => {
+        expect(parser.traverse(dictionary, 'defaultTest')).toBe('this is a default string')
+        expect(parser.traverse(dictionary, 'defaultTest.alternate')).toBe('this is an alternate string')
+      }
+    )
   })
 
-  describe('parse()', function () {
-    it('should return a result', function () {
-      expect(parser.parse(dictionary, 'test')).to.equal('test')
+  describe('parse()', () => {
+    test('should return a result', () => {
+      expect(parser.parse(dictionary, 'test')).toBe('test')
     })
 
-    it('should return a result when passed args', function () {
+    test('should return a result when passed args', () => {
       expect(
         parser.parse(dictionary, dictionary.printfStringTest, ['parse test'])
-      ).to.equal('This is a parse test')
+      ).toBe('This is a parse test')
     })
 
-    it('should parse nested properties and return a string', function () {
-      expect(parser.parse(dictionary, dictionary.nestedMustacheTest)).to.equal(
-        'this is a nested mustache test'
-      )
+    test('should parse nested properties and return a string', () => {
+      expect(parser.parse(dictionary, dictionary.nestedMustacheTest)).toBe('this is a nested mustache test')
     })
 
-    it('should throw an error when missing args', function () {
+    test('should throw an error when missing args', () => {
       expect(
         parser.parse.bind(null, dictionary, dictionary.printfMixedTest)
-      ).to.throw('Missing parameters for string `%d %s, %d %s`')
+      ).toThrowError('Missing parameters for string `%d %s, %d %s`')
     })
   })
 
-  describe('printf()', function () {
-    it('should accept optional parameters', function () {
-      expect(parser.printf(dictionary.printfStringTest, ['test'])).to.equal(
-        'This is a test'
-      )
+  describe('printf()', () => {
+    test('should accept optional parameters', () => {
+      expect(parser.printf(dictionary.printfStringTest, ['test'])).toBe('This is a test')
     })
 
-    it('should accept more than 1 argument', function () {
+    test('should accept more than 1 argument', () => {
       expect(
         parser.printf(dictionary.printfMixedTest, [1, 'fish', 2, 'fish'])
-      ).to.equal('1 fish, 2 fish')
+      ).toBe('1 fish, 2 fish')
     })
 
-    it('should handle string params', function () {
-      expect(parser.printf(dictionary.printfStringTest, ['test'])).to.equal(
-        'This is a test'
-      )
+    test('should handle string params', () => {
+      expect(parser.printf(dictionary.printfStringTest, ['test'])).toBe('This is a test')
     })
 
-    it('should handle number params', function () {
-      expect(parser.printf(dictionary.printfNumberTest, [2])).to.equal(
-        '1 + 1 = 2'
-      )
+    test('should handle number params', () => {
+      expect(parser.printf(dictionary.printfNumberTest, [2])).toBe('1 + 1 = 2')
     })
 
-    it('should handle mixed params', function () {
+    test('should handle mixed params', () => {
       expect(
         parser.printf(dictionary.printfMixedTest, [1, 'fish', 2, 'fish'])
-      ).to.equal('1 fish, 2 fish')
+      ).toBe('1 fish, 2 fish')
     })
 
-    it('should handle params in nested properties', function () {
-      expect(parser.printf(dictionary.nested.printfTest, ['test'])).to.equal(
-        'this is a nested printf test'
-      )
+    test('should handle params in nested properties', () => {
+      expect(parser.printf(dictionary.nested.printfTest, ['test'])).toBe('this is a nested printf test')
     })
 
-    it('should handle index based placeholders', function () {
+    test('should handle index based placeholders', () => {
       expect(
         parser.printf('%s2 %d1, %s4 %d3', [1, 'fish', 2, 'fish'])
-      ).to.equal('fish 1, fish 2')
+      ).toBe('fish 1, fish 2')
     })
 
-    it('should ignore any extra args and without throwing an error', function () {
-      expect(
-        parser.printf(dictionary.printfStringTest, ['fish', 'cat'])
-      ).to.equal('This is a fish')
+    test(
+      'should ignore any extra args and without throwing an error',
+      () => {
+        expect(
+          parser.printf(dictionary.printfStringTest, ['fish', 'cat'])
+        ).toBe('This is a fish')
 
-      expect(
-        parser.printf('this has no placeholders', ['fish', 'cat'])
-      ).to.equal('this has no placeholders')
+        expect(
+          parser.printf('this has no placeholders', ['fish', 'cat'])
+        ).toBe('this has no placeholders')
+      }
+    )
+
+    test('should throw an error when passing not enough args', () => {
+      expect(parser.printf.bind(null, dictionary.printfMixedTest)).toThrowError('Mismatched number of parameters passed to: "%d %s, %d %s"')
     })
 
-    it('should throw an error when passing not enough args', function () {
-      expect(parser.printf.bind(null, dictionary.printfMixedTest)).to.throw(
-        'Mismatched number of parameters passed to: "%d %s, %d %s"'
-      )
-    })
+    test(
+      'should throw an error if passed anything other than string or number',
+      () => {
+        expect(
+          parser.printf.bind(null, dictionary.printfStringTest, [{}])
+        ).toThrowError('Invalid args were passed to: "This is a %s"')
+      }
+    )
 
-    it('should throw an error if passed anything other than string or number', function () {
-      expect(
-        parser.printf.bind(null, dictionary.printfStringTest, [{}])
-      ).to.throw('Invalid args were passed to: "This is a %s"')
-    })
+    test(
+      'should throw an error if passed a number but expected a string',
+      () => {
+        expect(
+          parser.printf.bind(null, dictionary.printfStringTest, [1])
+        ).toThrowError('Mismatched parameter types passed to: "This is a %s"')
+      }
+    )
 
-    it('should throw an error if passed a number but expected a string', function () {
-      expect(
-        parser.printf.bind(null, dictionary.printfStringTest, [1])
-      ).to.throw('Mismatched parameter types passed to: "This is a %s"')
-    })
+    test(
+      'should throw an error if passed a string but expected a number',
+      () => {
+        expect(
+          parser.printf.bind(null, dictionary.printfNumberTest, ['one'])
+        ).toThrowError('Mismatched parameter types passed to: "1 + 1 = %d"')
+      }
+    )
 
-    it('should throw an error if passed a string but expected a number', function () {
-      expect(
-        parser.printf.bind(null, dictionary.printfNumberTest, ['one'])
-      ).to.throw('Mismatched parameter types passed to: "1 + 1 = %d"')
-    })
-
-    it('should throw an error when string has mix of indexed/non-indexed placeholders', function () {
-      expect(
-        parser.printf.bind(null, '%s %d, %s4 %d3', [1, 'fish', 2, 'fish'])
-      ).to.throw(
-        'Mix of indexed/non-indexed placeholders were used for: "%s %d, %s4 %d3"'
-      )
-    })
+    test(
+      'should throw an error when string has mix of indexed/non-indexed placeholders',
+      () => {
+        expect(
+          parser.printf.bind(null, '%s %d, %s4 %d3', [1, 'fish', 2, 'fish'])
+        ).toThrowError('Mix of indexed/non-indexed placeholders were used for: "%s %d, %s4 %d3"')
+      }
+    )
   })
 
-  describe('mustache()', function () {
-    it('should use a sibling prop to build the string', function () {
-      expect(parser.mustache(dictionary, dictionary.mustacheTest)).to.equal(
-        'This is a mustache test'
-      )
+  describe('mustache()', () => {
+    test('should use a sibling prop to build the string', () => {
+      expect(parser.mustache(dictionary, dictionary.mustacheTest)).toBe('This is a mustache test')
     })
 
-    it('should handle mustaches in nested properties', function () {
+    test('should handle mustaches in nested properties', () => {
       expect(
         parser.mustache(dictionary, dictionary.nestedMustacheTest)
-      ).to.equal('this is a nested mustache test')
+      ).toBe('this is a nested mustache test')
     })
   })
 
-  describe('mixin()', function () {
-    it('should return a modified string done by a mixin function', function () {
-      expect(parser.mixin(dictionary, dictionary.mixinTest)).to.equal(
-        'This is a Test'
-      )
+  describe('mixin()', () => {
+    test('should return a modified string done by a mixin function', () => {
+      expect(parser.mixin(dictionary, dictionary.mixinTest)).toBe('This is a Test')
     })
 
-    it('should return a modified string done by a mixin function for a nested property', function () {
-      expect(parser.mixin(dictionary, dictionary.nested.mixinTest)).to.equal(
-        'this is a nested mixin Test'
-      )
-    })
+    test(
+      'should return a modified string done by a mixin function for a nested property',
+      () => {
+        expect(parser.mixin(dictionary, dictionary.nested.mixinTest)).toBe('this is a nested mixin Test')
+      }
+    )
   })
 
-  describe('decode()', function () {
-    it('should decode strictly valid HTML entities', function () {
-      expect(parser.decode('&comma; &amp; &laquo; &euro;')).to.equal(', & « €')
+  describe('decode()', () => {
+    test('should decode strictly valid HTML entities', () => {
+      expect(parser.decode('&comma; &amp; &laquo; &euro;')).toBe(', & « €')
     })
   })
 })

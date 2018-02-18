@@ -1,8 +1,5 @@
 'use strict'
 
-var chai = require('chai')
-var expect = chai.expect
-
 // test files
 var base = require('./samples/base-test.json')
 var locale = require('./samples/locale-test.json')
@@ -12,17 +9,17 @@ var oxford = require('../index.js')
 
 var ox
 
-describe('index', function () {
-  before(function () {
+describe('index', () => {
+  beforeAll(function () {
     ox = oxford([base, locale, client])
   })
 
-  it('should exist', function () {
-    expect(ox).to.exist
+  test('should exist', () => {
+    expect(ox).toBeDefined()
   })
 
-  it('should expose the get() method', function () {
-    expect(ox.get).to.exist
-    expect(ox.get).to.be.a('Function')
+  test('should expose the get() method', () => {
+    expect(ox.get).toBeDefined()
+    expect(typeof ox.get).toBe('function')
   })
 })

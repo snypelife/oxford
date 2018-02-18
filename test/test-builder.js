@@ -1,61 +1,62 @@
 'use strict'
 
-var chai = require('chai')
-var expect = chai.expect
-
 // private
 var builder = require('../lib/builder')
 
-describe('builder', function () {
-  describe('build()', function () {
-    it('should build a single level dictionary', function () {
+describe('builder', () => {
+  describe('build()', () => {
+    test('should build a single level dictionary', () => {
       var test = {
         a: '1',
         b: '2',
         c: '3'
       }
 
-      expect(builder.build(test)).to.eql(test)
+      expect(builder.build(test)).toEqual(test)
     })
 
-    it('should build a multi level dictionary (and covert numbers to strings)', function () {
-      var test = [
-        {
-          a: 1,
-          b: 2,
-          c: 3
-        },
-        {
-          c: 4,
-          d: 5,
-          e: 6
-        },
-        {
-          x: 7,
-          y: 8,
-          z: 9
-        }
-      ]
+    test(
+      'should build a multi level dictionary (and covert numbers to strings)',
+      () => {
+        var test = [
+          {
+            a: 1,
+            b: 2,
+            c: 3
+          },
+          {
+            c: 4,
+            d: 5,
+            e: 6
+          },
+          {
+            x: 7,
+            y: 8,
+            z: 9
+          }
+        ]
 
-      expect(builder.build(test)).to.eql({
-        a: '1',
-        b: '2',
-        c: '4',
-        d: '5',
-        e: '6',
-        x: '7',
-        y: '8',
-        z: '9'
-      })
-    })
+        expect(builder.build(test)).toEqual({
+          a: '1',
+          b: '2',
+          c: '4',
+          d: '5',
+          e: '6',
+          x: '7',
+          y: '8',
+          z: '9'
+        })
+      }
+    )
 
-    it('should throw an error if passed anything other than arrays and objects', function () {
-      expect(builder.build.bind(null, 1)).to.throw(
-        '`build` method only accepts arrays and objects as parameters'
-      )
-    })
+    test(
+      'should throw an error if passed anything other than arrays and objects',
+      () => {
+        expect(builder.build.bind(null, 1)).toThrowError('`build` method only accepts arrays and objects as parameters')
+      }
+    )
 
-    it('should resolve references on build', function () {
+    test('should resolve references on build', () => {
       var test = {
         ref: 'abcd',
         data: {
@@ -63,7 +64,7 @@ describe('builder', function () {
           b: 'this is a {{ref}}'
         }
       }
-      expect(builder.build(test)).to.eql({
+      expect(builder.build(test)).toEqual({
         ref: 'abcd',
         data: {
           a: 'abcd',
@@ -72,7 +73,7 @@ describe('builder', function () {
       })
     })
 
-    it('should resolve nested references on build', function () {
+    test('should resolve nested references on build', () => {
       var test = {
         ref: 'abcd',
         data: {
@@ -80,7 +81,7 @@ describe('builder', function () {
           b: 'this is a {{ref}}'
         }
       }
-      expect(builder.build(test)).to.eql({
+      expect(builder.build(test)).toEqual({
         ref: 'abcd',
         data: {
           a: 'abcd this is a abcd',
@@ -90,8 +91,8 @@ describe('builder', function () {
     })
   })
 
-  describe('merge()', function () {
-    it('should merge two objects together', function () {
+  describe('merge()', () => {
+    test('should merge two objects together', () => {
       var testA = {
         a: 1,
         b: 2,
@@ -103,7 +104,7 @@ describe('builder', function () {
         e: 6
       }
 
-      expect(builder.merge(testA, testB)).to.eql({
+      expect(builder.merge(testA, testB)).toEqual({
         a: 1,
         b: 2,
         c: 4,
@@ -112,25 +113,28 @@ describe('builder', function () {
       })
     })
 
-    it('should replace array properties of two objects merged together', function () {
-      var testA = {
-        a: 1,
-        b: 2,
-        c: ['v', 'w', 'x', 'y', 'z']
-      }
-      var testB = {
-        c: ['a', 'b', 'c'],
-        d: 5,
-        e: 6
-      }
+    test(
+      'should replace array properties of two objects merged together',
+      () => {
+        var testA = {
+          a: 1,
+          b: 2,
+          c: ['v', 'w', 'x', 'y', 'z']
+        }
+        var testB = {
+          c: ['a', 'b', 'c'],
+          d: 5,
+          e: 6
+        }
 
-      expect(builder.merge(testA, testB)).to.eql({
-        a: 1,
-        b: 2,
-        c: ['a', 'b', 'c'],
-        d: 5,
-        e: 6
-      })
-    })
+        expect(builder.merge(testA, testB)).toEqual({
+          a: 1,
+          b: 2,
+          c: ['a', 'b', 'c'],
+          d: 5,
+          e: 6
+        })
+      }
+    )
   })
 })

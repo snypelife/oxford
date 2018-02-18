@@ -1,11 +1,7 @@
 'use strict'
 
 var $f = require('util').format
-var chai = require('chai')
-var expect = chai.expect
 var _ = require('lodash')
-var sinon = require('sinon')
-chai.use(require('sinon-chai'))
 
 // test files
 var base = require('./samples/base-test.json')
@@ -39,204 +35,192 @@ function pluginFactory (hookName, pluginName, pluginMethod) {
   })
 }
 
-describe('registerPlugin', function () {
-  beforeEach(function () {
+describe('registerPlugin', () => {
+  beforeEach(() => {
     oxford([base, locale, client])
   })
 
   afterEach(cleanOxford)
 
-  it('should be a static method', function () {
-    expect(oxford.registerPlugin).to.exist
-    expect(oxford.registerPlugin).to.be.a('function')
+  test('should be a static method', () => {
+    expect(oxford.registerPlugin).toBeDefined()
+    expect(typeof oxford.registerPlugin).toBe('function')
   })
 
-  it('should throw if missing option parameter', function () {
-    expect(oxford.registerPlugin).to.throw('options parameter is required.')
+  test('should throw if missing option parameter', () => {
+    expect(oxford.registerPlugin).toThrowError('options parameter is required.')
   })
 
-  it('should throw if missing a hook name', function () {
-    expect(pluginFactory()).to.throw('hook name must be provided.')
+  test('should throw if missing a hook name', () => {
+    expect(pluginFactory()).toThrowError('hook name must be provided.')
   })
 
-  it('should throw if hook name is not a string', function () {
-    expect(pluginFactory(1)).to.throw('hook name must be a string.')
+  test('should throw if hook name is not a string', () => {
+    expect(pluginFactory(1)).toThrowError('hook name must be a string.')
   })
 
-  it('should throw if given an invalid hook name', function () {
-    expect(pluginFactory('invalidHook')).to.throw(
-      $f('hook must be one of the following: %s', pluginHooks.join(', '))
-    )
+  test('should throw if given an invalid hook name', () => {
+    expect(pluginFactory('invalidHook')).toThrowError($f('hook must be one of the following: %s', pluginHooks.join(', ')))
   })
 
-  it('should throw if missing plugin name', function () {
-    expect(pluginFactory('preget')).to.throw('a valid plugin name is required.')
+  test('should throw if missing plugin name', () => {
+    expect(pluginFactory('preget')).toThrowError('a valid plugin name is required.')
   })
 
-  it('should throw if plugin name is not a string', function () {
-    expect(pluginFactory('preget', 1)).to.throw('plugin name must be a string.')
+  test('should throw if plugin name is not a string', () => {
+    expect(pluginFactory('preget', 1)).toThrowError('plugin name must be a string.')
   })
 
-  it('should throw if missing plugin method', function () {
-    expect(pluginFactory('preget', 'pluginName')).to.throw(
-      'a valid plugin method is required.'
-    )
+  test('should throw if missing plugin method', () => {
+    expect(pluginFactory('preget', 'pluginName')).toThrowError('a valid plugin method is required.')
   })
 
-  it('should throw if plugin method is not a function', function () {
-    expect(pluginFactory('preget', 'pluginName', 1)).to.throw(
-      'plugin method must be a function.'
-    )
+  test('should throw if plugin method is not a function', () => {
+    expect(pluginFactory('preget', 'pluginName', 1)).toThrowError('plugin method must be a function.')
   })
 
   pluginHooks.forEach(function (hook) {
-    it(
+    test(
       $f('should register a %s plugin method without error', hook),
-      function () {
-        expect(pluginFactory(hook, 'test', function () {})).to.not.throw(Error)
+      () => {
+        expect(pluginFactory(hook, 'test', function () {})).not.toThrowError(Error)
       }
     )
 
-    it(
+    test(
       $f('should register a %s plugin method when format is hyphenated', hook),
-      function () {
+      () => {
         hook = hook.replace('pre', 'pre-').replace('post', 'post-')
-        expect(pluginFactory(hook, 'test', function () {})).to.not.throw(Error)
+        expect(pluginFactory(hook, 'test', function () {})).not.toThrowError(Error)
       }
     )
 
-    it(
+    test(
       $f('should register a %s plugin method when format is underscored', hook),
-      function () {
+      () => {
         hook = hook.replace('pre', 'pre_').replace('post', 'post_')
-        expect(pluginFactory(hook, 'test', function () {})).to.not.throw(Error)
+        expect(pluginFactory(hook, 'test', function () {})).not.toThrowError(Error)
       }
     )
 
-    it(
-      $f(
-        'should register a %s plugin method when format is space separated',
-        hook
-      ),
-      function () {
-        hook = hook.replace('pre', 'pre ').replace('post', 'post ')
-        expect(pluginFactory(hook, 'test', function () {})).to.not.throw(Error)
-      }
-    )
+    test($f(
+      'should register a %s plugin method when format is space separated',
+      hook
+    ), () => {
+      hook = hook.replace('pre', 'pre ').replace('post', 'post ')
+      expect(pluginFactory(hook, 'test', function () {})).not.toThrowError(Error)
+    })
   })
 
-  it('should append to hook array', function () {
+  test('should append to hook array', () => {
     pluginFactory('prebuild', 'test1', function () {})()
-    expect(oxford.pluginHooks.prebuild).to.exist
-    expect(oxford.pluginHooks.prebuild).to.be.an('array')
-    expect(oxford.pluginHooks.prebuild).to.have.length(1)
+    expect(oxford.pluginHooks.prebuild).toBeDefined()
+    expect(Array.isArray(oxford.pluginHooks.prebuild)).toBe(true)
+    expect(oxford.pluginHooks.prebuild).toHaveLength(1)
     pluginFactory('prebuild', 'test2', function () {})()
-    expect(oxford.pluginHooks.prebuild).to.exist
-    expect(oxford.pluginHooks.prebuild).to.be.an('array')
-    expect(oxford.pluginHooks.prebuild).to.have.length(2)
+    expect(oxford.pluginHooks.prebuild).toBeDefined()
+    expect(Array.isArray(oxford.pluginHooks.prebuild)).toBe(true)
+    expect(oxford.pluginHooks.prebuild).toHaveLength(2)
   })
 
-  describe('Static', function () {
-    it('should register the plugin method', function () {
+  describe('Static', () => {
+    test('should register the plugin method', () => {
       pluginFactory('static', 'staticPlugin', function () {
-        expect(this).to.be.a('function')
+        expect(typeof this).toBe('function')
         return 'foo'
       })()
-      expect(oxford.staticPlugin).to.exist
-      expect(oxford.staticPlugin).to.be.a('function')
-      expect('foo').to.satisfy(oxford.staticPlugin)
+      expect(oxford.staticPlugin).toBeDefined()
+      expect(typeof oxford.staticPlugin).toBe('function')
+      expect(oxford.staticPlugin()).toEqual('foo')
     })
 
-    it('should throw if the plugin is already defined', function () {
+    test('should throw if the plugin is already defined', () => {
       var dupePlugin = pluginFactory('static', 'staticPlugin', function () {})
 
       // first invocation
       pluginFactory('static', 'staticPlugin', function () {})()
 
       // second dupe call + test
-      expect(dupePlugin).to.throw('plugin staticPlugin is already defined.')
+      expect(dupePlugin).toThrowError('plugin staticPlugin is already defined.')
     })
   })
 
   ;['Pre-build', 'Post-build'].forEach(function (hook) {
-    describe(hook, function () {
+    describe(hook, () => {
       hook = hook.toLowerCase().replace('-', '')
-      it('should register the plugin method', function () {
+      test('should register the plugin method', () => {
         pluginFactory(hook, 'plugin', function () {
           return 'foo'
         })()
-        expect(oxford.pluginHooks[hook]).to.exist
-        expect(oxford.pluginHooks[hook]).to.be.an('array')
-        expect(oxford.pluginHooks[hook]).to.have.length(1)
-        expect('foo').to.satisfy(oxford.pluginHooks[hook][0])
+        expect(oxford.pluginHooks[hook]).toBeDefined()
+        expect(Array.isArray(oxford.pluginHooks[hook])).toBe(true)
+        expect(oxford.pluginHooks[hook]).toHaveLength(1)
+        expect(oxford.pluginHooks[hook][0]()).toEqual('foo')
       })
 
-      it(
+      test(
         $f('should pass the %s dictionary object to the plugin method', hook),
-        function () {
-          var spy = sinon.spy(function (dict) {
+        () => {
+          var spy = jest.fn(function (dict) {
             return dict
           })
           var data = { a: 'a', b: 'b', c: 'c' }
           pluginFactory(hook, 'test', spy)()
           oxford(data)
-          expect(spy).to.have.been.calledWith(data)
+          expect(spy).toHaveBeenCalledWith(data)
         }
       )
 
-      it(
-        $f(
-          'should waterfall the %s dictionary object thru to each plugin method',
-          hook
-        ),
-        function () {
-          var spy1 = sinon.spy(function (dict) {
-            dict.x = 'x'
-            return dict
-          })
-          var spy2 = sinon.spy(function (dict) {
-            dict.y = 'y'
-            return dict
-          })
-          var data = { a: 'a', b: 'b', c: 'c' }
-          pluginFactory(hook, 'test', spy1)()
-          pluginFactory(hook, 'test2', spy2)()
-          oxford(data)
-          expect(spy1).to.have.been.calledWith({
-            a: 'a',
-            b: 'b',
-            c: 'c',
-            x: 'x'
-          })
-          expect(spy2).to.have.been.calledWith({
-            a: 'a',
-            b: 'b',
-            c: 'c',
-            x: 'x',
-            y: 'y'
-          })
-        }
-      )
+      test($f(
+        'should waterfall the %s dictionary object thru to each plugin method',
+        hook
+      ), () => {
+        var spy1 = jest.fn(function (dict) {
+          dict.x = 'x'
+          return dict
+        })
+        var spy2 = jest.fn(function (dict) {
+          dict.y = 'y'
+          return dict
+        })
+        var data = { a: 'a', b: 'b', c: 'c' }
+        pluginFactory(hook, 'test', spy1)()
+        pluginFactory(hook, 'test2', spy2)()
+        oxford(data)
+        expect(spy1).toHaveBeenCalledWith({
+          a: 'a',
+          b: 'b',
+          c: 'c',
+          x: 'x'
+        })
+        expect(spy2).toHaveBeenCalledWith({
+          a: 'a',
+          b: 'b',
+          c: 'c',
+          x: 'x',
+          y: 'y'
+        })
+      })
     })
   })
 
   ;['Pre-get', 'Post-get'].forEach(function (hook) {
-    describe(hook, function () {
+    describe(hook, () => {
       hook = hook.toLowerCase().replace('-', '')
-      it('should register the plugin method', function () {
+      test('should register the plugin method', () => {
         pluginFactory(hook, 'plugin', function () {
           return 'foo'
         })()
-        expect(oxford.pluginHooks[hook]).to.exist
-        expect(oxford.pluginHooks[hook]).to.be.an('array')
-        expect(oxford.pluginHooks[hook]).to.have.length(1)
-        expect('foo').to.satisfy(oxford.pluginHooks[hook][0])
+        expect(oxford.pluginHooks[hook]).toBeDefined()
+        expect(Array.isArray(oxford.pluginHooks[hook])).toBe(true)
+        expect(oxford.pluginHooks[hook]).toHaveLength(1)
+        expect(oxford.pluginHooks[hook][0]()).toEqual('foo')
       })
 
-      it(
+      test(
         $f('should pass the %s dictionary object to the plugin method', hook),
-        function () {
-          var spy = sinon.spy(function (string) {
+        () => {
+          var spy = jest.fn(function (string) {
             return string.toUpperCase()
           })
 
@@ -246,66 +230,77 @@ describe('registerPlugin', function () {
           var ox = oxford(data)
           var string = ox.get('a')
 
-          expect(spy).to.have.been.calledWith(data.a)
-          expect(string).to.equal(data.a.toUpperCase())
+          expect(spy).toHaveBeenCalledWith(data.a)
+          expect(string).toBe(data.a.toUpperCase())
         }
       )
 
-      it(
-        $f(
-          'should waterfall the %s dictionary object thru to each plugin method',
-          hook
-        ),
-        function () {
-          var spy1 = sinon.spy(function (string) {
-            return string.toUpperCase()
-          })
-          var spy2 = sinon.spy(function (string) {
-            return _.repeat(string, 3)
-          })
+      test($f(
+        'should waterfall the %s dictionary object thru to each plugin method',
+        hook
+      ), () => {
+        var spy1 = jest.fn(function (string) {
+          return string.toUpperCase()
+        })
+        var spy2 = jest.fn(function (string) {
+          return _.repeat(string, 3)
+        })
 
-          pluginFactory(hook, 'test', spy1)()
-          pluginFactory(hook, 'test2', spy2)()
+        pluginFactory(hook, 'test', spy1)()
+        pluginFactory(hook, 'test2', spy2)()
 
-          var data = { a: 'a', b: 'b', c: 'c' }
-          var ox = oxford(data)
-          var string = ox.get('a')
+        var data = { a: 'a', b: 'b', c: 'c' }
+        var ox = oxford(data)
+        var string = ox.get('a')
 
-          expect(spy1).to.have.been.calledWith(data.a)
-          expect(spy2).to.have.been.calledWith(data.a.toUpperCase())
-          expect(string).to.equal(_.repeat(data.a, 3).toUpperCase())
-        }
-      )
+        expect(spy1).toHaveBeenCalledWith(data.a)
+        expect(spy2).toHaveBeenCalledWith(data.a.toUpperCase())
+        expect(string).toBe(_.repeat(data.a, 3).toUpperCase())
+      })
     })
   })
 
-  it('should register plugins from a oxford-plugin module using shorthand', function () {
-    var food = oxford({
-      food: 'donuts'
-    })
-    oxford.registerPlugin('test')
-    expect(food.get('food')).to.equal('Mmm, donuts')
-  })
+  test(
+    'should register plugins from a oxford-plugin module using shorthand',
+    () => {
+      var food = oxford({
+        food: 'donuts'
+      })
+      oxford.registerPlugin('test')
+      expect(food.get('food')).toBe('Mmm, donuts')
+    }
+  )
 
-  it('should register plugins from a oxford-plugin module using full name', function () {
-    var food = oxford({
-      food: 'donuts'
-    })
-    oxford.registerPlugin('oxford-plugin-test')
-    expect(food.get('food')).to.equal('Mmm, donuts')
-  })
+  test(
+    'should register plugins from a oxford-plugin module using full name',
+    () => {
+      var food = oxford({
+        food: 'donuts'
+      })
+      oxford.registerPlugin('oxford-plugin-test')
+      expect(food.get('food')).toBe('Mmm, donuts')
+    }
+  )
 
-  it('should register plugins from a non oxford-plugin style module', function () {
-    var food = oxford({
-      food: 'donuts'
-    })
-    // should not used like this, but for test this should be relative to the lib folder
-    oxford.registerPlugin('../test/oxford-plugin-local-test')
+  test(
+    'should register plugins from a non oxford-plugin style module',
+    () => {
+      var food = oxford({
+        food: 'donuts'
+      })
+      // should not used like this, but for test this should be relative to the lib folder
+      oxford.registerPlugin('../test/oxford-plugin-local-test')
 
-    expect(food.get('food')).to.equal('Mmm, donuts')
-  })
+      expect(food.get('food')).toBe('Mmm, donuts')
+    }
+  )
 
-  it('should error if the plugin cannot be registered (via string)', function () {
-    expect(oxford.registerPlugin.bind(null, 'testDoesNotExist')).to.throw(Error)
-  })
+  test(
+    'should error if the plugin cannot be registered (via string)',
+    () => {
+      expect(
+        oxford.registerPlugin.bind(null, 'testDoesNotExist')
+      ).toThrowError('testDoesNotExist')
+    }
+  )
 })
