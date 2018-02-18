@@ -118,7 +118,7 @@ describe('builder', function () {
         });
     });
 
-    it('should merge two objects containing arrays together', function () {
+    it('should replace array properties of two objects merged together', function () {
       var testA = {
         a: 1,
         b: 2,
