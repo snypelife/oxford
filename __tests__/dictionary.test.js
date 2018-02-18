@@ -1,15 +1,13 @@
 'use strict'
 
-var expect = require('chai').expect
-
 var oxford = require('../')
 
-describe('dictionary', function () {
+describe('dictionary', () => {
   var ox
 
   var testDictionary
 
-  before(function () {
+  beforeAll(function () {
     testDictionary = {
       test: {
         testRef: 'test',
@@ -23,11 +21,11 @@ describe('dictionary', function () {
     }
   })
 
-  beforeEach(function () {
+  beforeEach(() => {
     ox = oxford([testDictionary])
   })
 
-  it('should expose the internal dictionary', function () {
+  test('should expose the internal dictionary', () => {
     var expected = {
       test: {
         testRef: 'test',
@@ -40,10 +38,10 @@ describe('dictionary', function () {
       }
     }
 
-    expect(ox.dictionary).to.eql(expected)
+    expect(ox.dictionary).toEqual(expected)
   })
 
-  it('should expose the internal dictionary of a child', function () {
+  test('should expose the internal dictionary of a child', () => {
     var expected = {
       b: {
         c: 'foo',
@@ -51,14 +49,14 @@ describe('dictionary', function () {
       }
     }
 
-    expect(ox.child('test.a').dictionary).to.eql(expected)
+    expect(ox.child('test.a').dictionary).toEqual(expected)
   })
 
-  it('should survive stringify', function () {
+  test('should survive stringify', () => {
     var stringDictionary = JSON.stringify(ox.dictionary)
 
     var recreatedDictionary = JSON.parse(stringDictionary)
 
-    expect(oxford([recreatedDictionary]).dictionary).to.eql(ox.dictionary)
+    expect(oxford([recreatedDictionary]).dictionary).toEqual(ox.dictionary)
   })
 })
