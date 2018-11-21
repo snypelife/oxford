@@ -1,6 +1,6 @@
 {
   "name": "oxford",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "Localization/String library module",
   "main": "index.js",
   "repository": {
@@ -18,8 +18,7 @@
   "scripts": {
     "cov": "opener ./coverage/lcov-report/index.html",
     "test-only": "jest",
-    "test": "jest && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
-    "precommit": "npm run test-only"
+    "test": "jest && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
   },
   "lint-staged": {
     "linters": {
@@ -27,6 +26,12 @@
         "prettier-standard",
         "git add"
       ]
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run test-only",
+      "pre-push": "npm audit"
     }
   },
   "jest": {
@@ -48,9 +53,9 @@
   "homepage": "https://github.com/snypelife/oxford",
   "devDependencies": {
     "coveralls": "^3.0.1",
-    "husky": "^0.14.3",
+    "husky": "^1.2.0",
     "jest": "^22.4.3",
-    "lint-staged": "^6.1.1",
+    "lint-staged": "^8.1.0",
     "opener": "^1.4.1",
     "oxford-plugin-test": "^1.0.0",
     "prettier-standard": "^8.0.0"
