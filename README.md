@@ -51,11 +51,11 @@ ox.get('message', 'muertos', 'simple'); // El uso de Oxford es simple muertos
 ```
 
 
-#### `{{mustache}}` references to internal sibling props
+#### `{{ mustache }}` references to internal sibling props (spaces required)
 ```js
 {
   "name": "Bob",
-  "welcomeMessage": "Howdy {{name}}!" // 'Howdy Bob!'
+  "welcomeMessage": "Howdy {{ name }}!" // 'Howdy Bob!'
 }
 ```
 
