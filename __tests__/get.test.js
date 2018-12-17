@@ -66,4 +66,8 @@ describe('get()', () => {
   test('should retrieve a multi referenced string', () => {
     expect(get(dictionary, 'references.refMessages.routed', 1)).toBe('this is a nested singular(1) statement')
   })
+
+  test('should retrieve a single char referenced string', () => {
+    expect(get(dictionary, 'references.singleChar.t')).toBe('t')
+  })
 })

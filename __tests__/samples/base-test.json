@@ -48,8 +48,13 @@
     "routed": "[[routed]]"
   },
 
+  "r": {
+    "t": "{{t}}"
+  },
+
   "references": {
-    "refMessages": "[[myMessages]]"
+    "refMessages": "[[myMessages]]",
+    "singleChar": "[[r]]"
   }
 }
 
