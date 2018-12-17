@@ -36,6 +36,8 @@ describe('get()', () => {
 
       expect(get(dictionary, 'nested.mustacheTest')).toBe('this is a nested mustache test')
 
+      expect(get(dictionary, 'nested.mustacheTestSingleChar')).toBe('this is single char mustache t')
+
       expect(get(dictionary, 'routed', 1)).toBe('this is a nested singular(1) statement')
 
       expect(get(dictionary, 'routed', 2)).toBe('this is a plural(2) statement')
