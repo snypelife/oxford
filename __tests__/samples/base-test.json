@@ -38,6 +38,15 @@
     "thousandSeparator": "&comma;",
     "decimalSymbol": "&period;",
     "format": "{{currency.symbol}}#currency(%d,{{currency.thousandSeparator}},{{currency.decimalSymbol}})"
+  },
+
+  "myMessages": {
+    "messageOne": "one message",
+    "routed": "[[routed]]"
+  },
+
+  "references": {
+    "refMessages": "[[myMessages]]"
   }
 }
 
