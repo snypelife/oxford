@@ -4,6 +4,8 @@
   "printfMixedTest": "%d %s, %d %s",
 
   "test": "test",
+  "t": "t",
+
   "mustacheTest": "This is a mustache {{ test }}",
   "mixinTest": "This is a #capitalize(test)",
   "nestedMustacheTest": "{{ nested.mustacheTest }}",
@@ -12,6 +14,7 @@
     "test": "this is a nested test",
     "printfTest": "this is a nested printf %s",
     "mustacheTest": "this is a nested mustache {{ test }}",
+    "mustacheTestSingleChar": "this is single char mustache {{t}}",
     "mixinTest": "this is a nested mixin #capitalize(test)"
   },
 
@@ -38,6 +41,20 @@
     "thousandSeparator": "&comma;",
     "decimalSymbol": "&period;",
     "format": "{{currency.symbol}}#currency(%d,{{currency.thousandSeparator}},{{currency.decimalSymbol}})"
+  },
+
+  "myMessages": {
+    "messageOne": "one message",
+    "routed": "[[routed]]"
+  },
+
+  "r": {
+    "t": "{{t}}"
+  },
+
+  "references": {
+    "refMessages": "[[myMessages]]",
+    "singleChar": "[[r]]"
   }
 }
 

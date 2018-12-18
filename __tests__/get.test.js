@@ -36,6 +36,8 @@ describe('get()', () => {
 
       expect(get(dictionary, 'nested.mustacheTest')).toBe('this is a nested mustache test')
 
+      expect(get(dictionary, 'nested.mustacheTestSingleChar')).toBe('this is single char mustache t')
+
       expect(get(dictionary, 'routed', 1)).toBe('this is a nested singular(1) statement')
 
       expect(get(dictionary, 'routed', 2)).toBe('this is a plural(2) statement')
@@ -55,5 +57,17 @@ describe('get()', () => {
 
   test('should retrieve a nested empty string', () => {
     expect(get(dictionary, 'nested.emptyString')).toBe('')
+  })
+
+  test('should retrieve a referenced string', () => {
+    expect(get(dictionary, 'references.refMessages.messageOne')).toBe('one message')
+  });
+
+  test('should retrieve a multi referenced string', () => {
+    expect(get(dictionary, 'references.refMessages.routed', 1)).toBe('this is a nested singular(1) statement')
+  })
+
+  test('should retrieve a single char referenced string', () => {
+    expect(get(dictionary, 'references.singleChar.t')).toBe('t')
   })
 })
