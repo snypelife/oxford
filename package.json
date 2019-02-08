@@ -1,6 +1,6 @@
 {
   "name": "oxford",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Localization/String library module",
   "main": "index.js",
   "repository": {
@@ -62,7 +62,7 @@
   },
   "dependencies": {
     "he": "^0.5.0",
-    "lodash": "^4.17.5",
+    "lodash": "^4.17.11",
     "traverse": "^0.6.6"
   }
 }
