@@ -26,7 +26,7 @@ This l10n module is used to localize applications. It is based on the principle 
 
 ```
 
-It was heavily inspired by [Mozilla's L20n framework](http://www.l20n.org), which I recommend you checkout and see if it fits as your project's localization solution.
+It was heavily inspired by [Mozilla's L20n framework](https://developer.mozilla.org/en-US/docs/Mozilla/Projects/L20n), which I recommend you checkout and see if it fits as your project's localization solution.
 
 #### `%printf` based dynamic placeholders that expect an input
 ```js
