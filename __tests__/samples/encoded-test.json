@@ -1,0 +1,6 @@
+{
+  "encodedString": "this&amp;that",
+  "ampersandString": "this&that",
+  "encodedCombination": "this&amp;that&other",
+  "parameteredEncoded": "this%sthat%ser"
+}
