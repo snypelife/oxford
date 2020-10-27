@@ -5,6 +5,7 @@ var base = require('./samples/base-test.json')
 var locale = require('./samples/locale-test.json')
 var client = require('./samples/client-test.json')
 var edges = require('./samples/edge-cases.json')
+var encoded = require('./samples/encoded-test.json')
 
 var builder = require('../lib/builder')
 var get = require('../lib/get')
@@ -13,7 +14,7 @@ var dictionary
 
 describe('get()', () => {
   beforeAll(function () {
-    dictionary = builder.build([base, locale, client, edges])
+    dictionary = builder.build([base, locale, client, edges, encoded])
     get = get.bind(require('../index.js'))
   })
 
@@ -70,4 +71,21 @@ describe('get()', () => {
   test('should retrieve a single char referenced string', () => {
     expect(get(dictionary, 'references.singleChar.t')).toBe('t')
   })
+
+  test('should retrieve and decode html characters', () => {
+    expect(get(dictionary, 'encodedString')).toBe('this&that')
+  })
+
+  test('should retrieve and not decode if an ampersand is used but is not an encoded character', () => {
+    expect(get(dictionary, 'ampersandString')).toBe('this&that')
+  })
+
+  test('should retrieve and encode partially if there is a combination of encoded characters and ampersands', () => {
+    expect(get(dictionary, 'encodedCombination')).toBe('this&that&other')
+  })
+
+  test('should decode substitution where applicable', () => {
+    expect(get(dictionary, 'parameteredEncoded', '&amp;', '&oth')).toBe('this&that&other')
+  })
+
 })
