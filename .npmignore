@@ -2,3 +2,5 @@ __tests__/
 .travis.yml
 coverage/
 .sublime-workspace
+.husky
+.nvmrc
