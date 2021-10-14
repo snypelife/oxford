@@ -1,6 +1,6 @@
 {
   "name": "oxford",
-  "version": "2.1.9",
+  "version": "2.1.10",
   "description": "Localization/String library module",
   "main": "index.js",
   "repository": {
