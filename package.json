@@ -1,6 +1,6 @@
 {
   "name": "oxford",
-  "version": "2.1.8",
+  "version": "2.1.9",
   "description": "Localization/String library module",
   "main": "index.js",
   "repository": {
@@ -18,7 +18,8 @@
   "scripts": {
     "cov": "opener ./coverage/lcov-report/index.html",
     "test-only": "jest",
-    "test": "jest && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage"
+    "test": "jest && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "prepare": "husky install"
   },
   "lint-staged": {
     "linters": {
@@ -26,12 +27,6 @@
         "prettier-standard",
         "git add"
       ]
-    }
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run test-only",
-      "pre-push": "npm audit"
     }
   },
   "jest": {
@@ -56,17 +51,17 @@
     "minimist": "^1.2.5"
   },
   "devDependencies": {
-    "coveralls": "^3.1.0",
-    "husky": "^4.3.0",
-    "jest": "^26.5.3",
-    "lint-staged": "^10.4.0",
+    "coveralls": "^3.1.1",
+    "husky": "^7.0.2",
+    "jest": "^27.2.5",
+    "lint-staged": "^11.2.3",
     "opener": "^1.5.2",
     "oxford-plugin-test": "^1.0.0",
-    "prettier-standard": "^16.4.1"
+    "prettier-standard": "^13.0.6"
   },
   "dependencies": {
     "he": "^1.2.0",
-    "lodash": "^4.17.20",
+    "lodash": "^4.17.21",
     "traverse": "^0.6.6"
   }
 }
