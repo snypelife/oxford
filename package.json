@@ -17,8 +17,7 @@
   },
   "scripts": {
     "cov": "opener ./coverage/lcov-report/index.html",
-    "test-only": "jest",
-    "test": "jest && cat ./coverage/lcov.info | coveralls && rm -rf ./coverage",
+    "test": "jest",
     "prepare": "husky install"
   },
   "lint-staged": {
