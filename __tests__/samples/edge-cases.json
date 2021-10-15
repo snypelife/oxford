@@ -2,5 +2,6 @@
   "emptyString": "",
   "nested": {
     "emptyString": ""
-  }
+  },
+  "emptyObject": {}
 }

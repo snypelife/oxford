@@ -88,4 +88,8 @@ describe('get()', () => {
     expect(get(dictionary, 'parameteredEncoded', '&amp;', '&oth')).toBe('this&that&other')
   })
 
+  test('should throw an error if attempting to retrieve a branch instead of leaf', () => {
+    expect(get.bind(null, dictionary, 'emptyObject')).toThrowError('Attempting to retrive branch instead of leaf. Please check your selector.')
+  })
+
 })
