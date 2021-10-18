@@ -4,19 +4,19 @@
 This l10n module is used to localize applications. It is based on the principle of overrides/fallbacks, where injected string libraries are deeply merged from right to left.
 
 ```js
-  var lib1 = { a: 1, b: 2, c: 3 };
-  var lib2 = { b: 'foo', x: 7, y: 8, z: 9 };
-  var lib3 = { b: 'baz', z: 'bar' };
+  const lib1 = { a: 1, b: 2, c: 3 };
+  const lib2 = { b: 'foo', x: 7, y: 8, z: 9 };
+  const lib3 = { b: 'baz', z: 'bar' };
 
-  var oxford = require('oxford');
-  var ox = oxford([lib1, lib2, lib3]);
+  const oxford = require('oxford');
+  const ox = oxford([lib1, lib2, lib3]);
   // lib1 is the base and each subsequent library is
   // merged in and overrides any values
 
   // Results in
   {
     a: '1',
-    b: 'baz'
+    b: 'baz',
     c: '3',
     x: '7',
     y: '8',
@@ -96,8 +96,8 @@ function capitalize(text) {
 
 #### String lookup method get()
 ```js
-var oxford = require('oxford');
-var ox = oxford([
+const oxford = require('oxford');
+const ox = oxford([
   {
     "prop": "the quick %s"
   },
@@ -140,9 +140,9 @@ ox.get('defaultVariant.alternate'); // => 'alternate text'
 Sometimes you may only want a portion of the string library for a particular view. Using the child method, it extracts an immutable version of the desired library.
 
 ```js
-var oxford = require('oxford');
+const oxford = require('oxford');
 
-var ox = oxford([{
+const ox = oxford([{
   a: {
     b : {
       c: 'foo',
@@ -153,7 +153,7 @@ var ox = oxford([{
 
 ox.get('a.b.c'); // 'foo'
 
-var oxChild = ox.child('a.b');
+const oxChild = ox.child('a.b');
 
 oxChild.get('c') // "foo"
 oxChild.get('d') // "bar"
@@ -167,14 +167,14 @@ This may be useful when using the dictionary on both the server and the client.
 **In the future this will be deprecated in favour of a deserialization method as it opens risk to state mutation**.
 
 ```js
-var ox = oxford([dictionaryData]);
+const ox = oxford([dictionaryData]);
 
 // This is the internal compiled dictionary, be careful not to mutate
-var dictionary = ox.dictionary;
+const dictionary = ox.dictionary;
 
 //wont lose data when stringified
-var dictionaryString = JSON.stringify(dictionary);
-var oxNew = oxford([JSON.parse(dictionaryString)]); //ox will be the same as oxNew
+const dictionaryString = JSON.stringify(dictionary);
+const oxNew = oxford([JSON.parse(dictionaryString)]); //ox will be the same as oxNew
 ```
 
 # Oxford Plugin System
@@ -190,7 +190,7 @@ the plain `<name>` if it fails
 // oxford-plugin-markdown/index.js
 'use strict';
 
-var parseMarkdown = require('marked');
+const parseMarkdown = require('marked');
 
 module.exports = {
   hook: 'post-get',
@@ -200,12 +200,12 @@ module.exports = {
 };
 
 // example.js
-var oxford = require('oxford');
+const oxford = require('oxford');
 oxford.registerPlugin('markdown');
 //or oxford.registerPlugin('oxford-plugin-markdown');
 //or oxford.registerPlugin(require('oxford-plugin-markdown'));
 
-var ox = oxford({ hello: '#Hello %s!' });
+const ox = oxford({ hello: '#Hello %s!' });
 
 ox.get('hello', 'Brett'); // returns <h1>Hello Brett!</h1>
 
@@ -256,7 +256,7 @@ hello: Hello %s!
 //oxford-plugin-yaml/index.js
 'use strict';
 
-var yaml = require('js-yaml');
+const yaml = require('js-yaml');
 
 module.exports = {
   hook: 'static',
@@ -268,10 +268,10 @@ module.exports = {
 
 
 // example.js
-var oxford = require('oxford');
+const oxford = require('oxford');
 oxford.registerPlugin('yaml');
 
-var ox = oxford.importYAML('./lib/text.yml');
+const ox = oxford.importYAML('./lib/text.yml');
 
 ox.get('hello', 'Brett'); // returns Hello Brett!
 
