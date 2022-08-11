@@ -107,12 +107,6 @@ const ox = oxford([
     }
   },
   {
-    "routedProp": {
-      "$key": "#pluralize(%d)",
-      "singular": "the lazy dog",
-      "plural": "the lazy dogs",
-      "none": "nothing"
-    },
     "defaultVariant": {
       "$default": "normal",
       "normal": "normal text",
@@ -127,13 +121,38 @@ ox.get('prop', 'brown'); // => 'the quick brown'
 // Get a value from a nested.prop
 ox.get('nested.prop', 'fox'); // => 'fox jumps over'
 
-// Get a value from a routed prop by dynamic key
-ox.get('routedProp', 2); // => 'the lazy dogs'
-
 // Get a value from a prop with variants
 ox.get('defaultVariant'); // => 'normal text'
 ox.get('defaultVariant.normal'); // => 'normal text'
 ox.get('defaultVariant.alternate'); // => 'alternate text'
+```
+
+#### Parameterized string lookup
+Oxford was designed to _make it possible_ to handle complex languages without needing to modify your code. The approach gives translators significant control and the ability to improve translations over time.
+
+```js
+const oxford = require('oxford');
+
+// the translations could start basic
+const ox = oxford({
+  body: 'He took %d1 week(s) and %d2 day(s)'
+});
+
+// or they can evolve to support the nuances of various languages
+const ox = oxford({
+  body: {
+    "$key": "#pluralize(%d1) #pluralize(%d2)",
+    "singular singular": "He took a week and one day.",
+    "singular plural": "He took a week and %d2 days.",
+    "plural singular": "He took %d1 weeks and one day.",
+    "plural plural": "He took %d1 weeks and %d2 days."
+  }
+});
+
+ox.get('body', 1, 1); // He took a week and one day.
+ox.get('body', 1, 3); // He took a week and 3 days.
+ox.get('body', 3, 1); // He took 3 weeks and one day.
+ox.get('body', 3, 3); // He took 3 weeks and 3 days.
 ```
 
 #### Child (sub-trees) oxford instances
