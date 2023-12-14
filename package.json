@@ -61,7 +61,7 @@
     "coveralls": "^3.1.1",
     "husky": "^7.0.2",
     "jest": "^27.2.5",
-    "lint-staged": "^11.2.3",
+    "lint-staged": "^13.2.1",
     "opener": "^1.5.2",
     "oxford-plugin-test": "^1.0.0",
     "prettier-standard": "^13.0.6"
